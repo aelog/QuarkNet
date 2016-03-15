@@ -158,7 +158,7 @@ int rfid_tag_decoder_f::general_work(int noutput_items,
 	
 	
 	
-	
+	printf("Going to print the tag bit vector:\n");
 	for(int j = 0; j < global_reader_state->num_bits_to_decode; j++){
 	   printf("%c", global_reader_state->tag_bit_vector[j]);
 	}
