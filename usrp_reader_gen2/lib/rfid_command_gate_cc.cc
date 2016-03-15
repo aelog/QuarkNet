@@ -267,6 +267,23 @@ int rfid_command_gate_cc::general_work(int noutput_items,
   return written;
 }
 
+/* How this function is called:
+ * 
+ * 1. calc_signal_stats(buffer,
+ * 			d_T1_num_samples / 4,		// len
+ * 			&global_reader_state->max_pwr,
+ * 			&global_reader_state->min_pwr,
+ * 			&global_reader_state->avg_pwr,
+ * 			&global_reader_state->std_dev_noise);
+ * 
+ * 2. calc_signal_stats(buffer,
+ * 			d_T1_num_samples / 4,		// len
+ * 			&global_reader_state->max_pwr,
+ * 			&global_reader_state->min_pwr,
+ * 			&global_reader_state->avg_pwr,
+ * 			&global_reader_state->std_dev_signal);
+ */
+
 void 
 rfid_command_gate_cc::calc_signal_stats(float * buffer, int len, double * max, double * min, double * avg, double * std_dev)
 {
