@@ -253,7 +253,8 @@ int rfid_command_gate_cc::general_work(int noutput_items,
       int command[] = {TIMER_FIRED};
       memcpy(ctrl_msg->msg(), &command, 1 * sizeof(int));
       d_ctrl_out->insert_tail(ctrl_msg);
-      printf("Timer fired starting cycle\n");
+//       NOTE: verbose output
+//       printf("Timer fired starting cycle\n");
       
     }
     if(global_reader_state->cur_cycle == global_reader_state->num_cycles + 1){

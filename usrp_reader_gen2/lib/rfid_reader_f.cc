@@ -380,7 +380,8 @@ rfid_reader_f::start_cycle(){
   int num_pkts = 0;
   global_reader_state->cur_cycle++;
   if(global_reader_state->cur_cycle %10 == 0){
-    printf("Starting cycle %d\n", global_reader_state->cur_cycle);
+//     NOTE: verbose output
+//     printf("Starting cycle %d\n", global_reader_state->cur_cycle);
   }
   d_tags_read_in_cycle = 0;
 
@@ -1332,7 +1333,8 @@ rfid_reader_f::send_another_query(){
       return true;
     }
     else{
-      printf("Finished %d cycles.\n", global_reader_state->cur_cycle);
+//       NOTE: verbose output
+//       printf("Finished %d cycles.\n", global_reader_state->cur_cycle);
       return false;
     }
   }
