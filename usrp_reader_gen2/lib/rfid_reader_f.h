@@ -18,8 +18,6 @@ class rfid_reader_f : public gr_block {
   friend rfid_reader_f_sptr
   rfid_make_reader_f (int sample_rate);
 
-
-
   int d_sample_rate;
 
   float * d_one;
@@ -65,17 +63,17 @@ class rfid_reader_f : public gr_block {
   gr_msg_queue_sptr log_q;
   enum {LOG_START_CYCLE, LOG_QUERY, LOG_ACK, LOG_QREP, LOG_NAK, LOG_REQ_RN, LOG_READ, LOG_RN16, LOG_EPC, LOG_HANDLE, LOG_DATA, LOG_EMPTY, LOG_COLLISION, LOG_OKAY, LOG_ERROR};
 
-  public:
+public:
 
   int general_work(int noutput_items,
-		   gr_vector_int &ninput_items,
-		   gr_vector_const_void_star &input_items,
-		   gr_vector_void_star &output_items);
+                   gr_vector_int &ninput_items,
+                   gr_vector_const_void_star &input_items,
+                   gr_vector_void_star &output_items);
 
   gr_msg_queue_sptr    ctrl_q() const {return d_ctrl_q;}
   gr_msg_queue_sptr get_log() const {return log_q;}
 
-  private:
+private:
   rfid_reader_f (int sample_rate);
   void gen_query_cmd();
   void gen_qrep_cmd();
@@ -99,8 +97,6 @@ class rfid_reader_f : public gr_block {
 
   void forecast (int noutput_items, gr_vector_int &ninput_items_required);
   void log_msg(int message, char * text, int error);
-
-
 };
 
 

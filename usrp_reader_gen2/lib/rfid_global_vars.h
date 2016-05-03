@@ -24,8 +24,6 @@ const bool OPTIMAL_Q = false;
 const int NUM_TAGS = 2;       //The number of tags in the population
 /////////
 
-
-
 const bool LOGGING = true;  //Generally, you want to log things.
 const bool READ_DATA = false; //READ data after singulation. Currently, not fully implemented.
 
@@ -43,7 +41,7 @@ enum {TIMER_FIRED, BITS_DECODED, NO_PREAMBLE};  //Messages from tag_decoder to r
 enum {DECODER_SEEK_PREAMBLE, DECODER_PREAMBLE_FOUND, DECODER_FINISHED, DECODER_STARTED, DECODER_CLEAR_PIPE};//State of tag_decoder
 
 //This is for passing info, triggering changes, etc between blocks.
-struct reader_state{
+struct reader_state {
   int last_cmd_sent;
 
   int command_gate_status;
@@ -76,17 +74,11 @@ struct reader_state{
   char * tag_bit_vector;
 
   double min_pwr, max_pwr, std_dev_noise, std_dev_signal, avg_pwr;
-
-
-
-
 };
 
 extern reader_state * global_reader_state;
 
 extern void init_global_reader_state();
-
-
 
 const static char * q_strings[] = {"0000","0001","0010","0011","0100","0101","0110","0111", "1000"};
 
@@ -107,7 +99,6 @@ const int tari_width = 12;
 const int rtcal_width = 60; //WISP
 const int trcal_width = 75; //WISP
 const int NUM_SAMPLES_PER_PULSE = 4;
-
 
 
 /* static float m8_preamble_vec[] = {1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1,1,-1, */
@@ -133,30 +124,25 @@ const int NUM_SAMPLES_PER_PULSE = 4;
 
 
 static float m8_preamble_vec[] = {1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,
-				  1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,
-				  -1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,
-				  -1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,
-				  1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,
-				  -1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1};
-
-
+                                  1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,
+                                  -1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,
+                                  -1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,
+                                  1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,
+                                  -1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1};
 
 static float m4_preamble_vec[] = {1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,
-				  1,1,-1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,1,1,
-				  -1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,
-				  -1,-1,1,1,-1,-1,1,1,1,1,-1,-1,1,1,-1,-1,
-				  1,1,-1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,1,1,
-				  -1,-1,1,1,-1,-1,1,1,1,1,-1,-1,1,1,-1,-1};
-
-
+                                  1,1,-1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,1,1,
+                                  -1,-1,1,1,-1,-1,1,1,-1,-1,1,1,-1,-1,1,1,
+                                  -1,-1,1,1,-1,-1,1,1,1,1,-1,-1,1,1,-1,-1,
+                                  1,1,-1,-1,1,1,-1,-1,-1,-1,1,1,-1,-1,1,1,
+                                  -1,-1,1,1,-1,-1,1,1,1,1,-1,-1,1,1,-1,-1};
 
 static float m2_preamble_vec[] = {1,1,-1,-1,1,1,-1,-1,
-				  1,1,-1,-1,-1,-1,1,1,
-				  -1,-1,1,1,-1,-1,1,1,
-				  -1,-1,1,1,1,1,-1,-1,
-				  1,1,-1,-1,-1,-1,1,1,
-				  -1,-1,1,1,1,1,-1,-1};
-
+                                  1,1,-1,-1,-1,-1,1,1,
+                                  -1,-1,1,1,-1,-1,1,1,
+                                  -1,-1,1,1,1,1,-1,-1,
+                                  1,1,-1,-1,-1,-1,1,1,
+                                  -1,-1,1,1,1,1,-1,-1};
 
 //static float m2_data_one_vec[] = {1,-1,-1,1};
 //static float m4_data_one_vec[] = {1,-1,1,-1,-1,1,-1,1};

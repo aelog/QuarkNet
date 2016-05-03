@@ -19,7 +19,7 @@ rfid_make_reader_decoder (float us_per_sample, float tari);
 class rfid_reader_decoder : public gr_sync_block
 {
 
- private:
+private:
   friend rfid_reader_decoder_sptr
   rfid_make_reader_decoder (float us_per_sample, float tari);
 
@@ -57,14 +57,13 @@ class rfid_reader_decoder : public gr_sync_block
   bool is_positive_edge(float sample);
   void log_event(int event, int lag_samples);
 
- public:
+public:
   ~rfid_reader_decoder();
   gr_msg_queue_sptr log_q;
   gr_msg_queue_sptr get_log() const {return log_q;}
   int work(int noutput_items,
-	   gr_vector_const_void_star &input_items,
-	   gr_vector_void_star &output_items);
-
+           gr_vector_const_void_star &input_items,
+           gr_vector_void_star &output_items);
 };
 
 #endif

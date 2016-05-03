@@ -18,8 +18,7 @@ rfid_make_tag_decoder_f ();
 
 class rfid_tag_decoder_f : public gr_block
 {
-
- private:
+private:
   friend rfid_tag_decoder_f_sptr
   rfid_make_tag_decoder_f ();
 
@@ -40,15 +39,15 @@ class rfid_tag_decoder_f : public gr_block
   rfid_tag_decoder_f();
   void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
- public:
+public:
   ~rfid_tag_decoder_f();
 
   int general_work(int noutput_items,
-		   gr_vector_int &ninput_items,
-		   gr_vector_const_void_star &input_items,
-		   gr_vector_void_star &output_items);
+                   gr_vector_int &ninput_items,
+                   gr_vector_const_void_star &input_items,
+                   gr_vector_void_star &output_items);
 
-  void	set_ctrl_out(const gr_msg_queue_sptr msgq) { d_ctrl_out = msgq; }
+  void set_ctrl_out(const gr_msg_queue_sptr msgq) { d_ctrl_out = msgq; }
 
 };
 
