@@ -18,13 +18,13 @@
 // This alarm system is necessary because of the gnuradio scheduler.
 // If no samples are passed through to the reader bloc, it never
 // gets scheduled. Also, it cannot act as an independent source, because
-// it will get scheduled EVERY time if it is not producing output. 
+// it will get scheduled EVERY time if it is not producing output.
 bool trigger_cycle = false;
 static itimerval timer;
 bool init_signal = false;
 int last_timer_cycle = 0;
 
-void 
+void
 catch_trigger_alarm (int sig){
 
   global_reader_state->num_timer_cycles++;
@@ -94,7 +94,7 @@ rfid_command_gate_cc::rfid_command_gate_cc(int pw, int T1, int sample_rate)
     d_pw(pw),
     d_T1(T1),
     d_sample_rate(sample_rate)
-  
+
 {
 
   d_pw_num_samples = (int)((d_pw / (float) 1000000) * d_sample_rate);
@@ -113,7 +113,7 @@ rfid_command_gate_cc::rfid_command_gate_cc(int pw, int T1, int sample_rate)
   }
   d_window_index = 0;
   d_avg_amp = 0;
- 
+
   //Set up timer
   //timeval t = {READER_CYCLE_TIMER_RATE / 1000, (READER_CYCLE_TIMER_RATE % 1000) * 1000};
   timeval t = {READER_CYCLE_TIMER_RATE / 1000000, READER_CYCLE_TIMER_RATE};
@@ -137,15 +137,15 @@ rfid_command_gate_cc::rfid_command_gate_cc(int pw, int T1, int sample_rate)
 rfid_command_gate_cc::~rfid_command_gate_cc()
 {}
 
-inline bool 
+inline bool
 rfid_command_gate_cc::is_positive_edge(float sample){
   return sample > d_thresh;
-  
+
 }
-inline bool 
+inline bool
 rfid_command_gate_cc::is_negative_edge(float sample){
   return sample < d_thresh;
-  
+
 }
 
 int rfid_command_gate_cc::general_work(int noutput_items,
@@ -167,12 +167,12 @@ int rfid_command_gate_cc::general_work(int noutput_items,
       d_sample_count = 0;
 
       d_num_pulses = 0;
-      
+
     }
 
     //Track average amplitude
-    d_avg_amp = ((d_avg_amp * (d_window_length - 1)) + 
-		 (d_avg_amp - d_window_samples[d_window_index]) + 
+    d_avg_amp = ((d_avg_amp * (d_window_length - 1)) +
+		 (d_avg_amp - d_window_samples[d_window_index]) +
 		 std::abs(in[i])) / d_window_length;       //Calculate avg by factoring out oldest value, adding newest
     d_window_samples[d_window_index] = std::abs(in[i]);    //Replace oldest value
     d_window_index = (d_window_index + 1) % d_window_length; //Increment point to oldest value
@@ -181,7 +181,7 @@ int rfid_command_gate_cc::general_work(int noutput_items,
 
     consumed++;
     flt_value = std::abs(in[i]);
-   
+
     if(global_reader_state->command_gate_status == GATE_CLOSED){
 
       global_reader_state->trigger_cmd = true;
@@ -192,7 +192,7 @@ int rfid_command_gate_cc::general_work(int noutput_items,
 	d_sample_count = 0;
 	neg_edge_found = true;
       }
-      
+
       if(neg_edge_found){
 	if(is_positive_edge(std::abs(in[i]))){
 	  if(d_sample_count > d_pw_num_samples / 2 && d_sample_count<100){
@@ -207,10 +207,10 @@ int rfid_command_gate_cc::general_work(int noutput_items,
 	  d_sample_count = 0;
 	}
       }
-    
+
       /*if(d_sample_count == (d_T1_num_samples / 4) * 3){
 	//Calculate noise power
-	int start_index = d_window_index - (d_T1_num_samples / 4) - 1; //Look back in buffer. 
+	int start_index = d_window_index - (d_T1_num_samples / 4) - 1; //Look back in buffer.
 	float * buffer = (float *)malloc((d_T1_num_samples / 4) * sizeof(float));
 	if (start_index < 0){
 	  start_index = d_window_length + start_index;  //Counting in from the end.
@@ -218,10 +218,10 @@ int rfid_command_gate_cc::general_work(int noutput_items,
 	for(int j = 0; j < d_T1_num_samples / 4; j++){
 
 	  buffer[j] = std::abs(d_window_samples[(j + start_index) % d_window_length]);
-	  
+
 	}
 	calc_signal_stats(buffer, d_T1_num_samples / 4, &global_reader_state->max_pwr, &global_reader_state->min_pwr, &global_reader_state->avg_pwr, &global_reader_state->std_dev_noise);
-	
+
       }*/
 
       //if(d_sample_count > d_T1_num_samples){
@@ -239,15 +239,15 @@ int rfid_command_gate_cc::general_work(int noutput_items,
 	//d_num_pulses = 0;
 	//d_sample_count = 0;
       //}
-      
-      
+
+
     }
     if (global_reader_state->command_gate_status == GATE_OPEN){
 
       //Calculate signal power
-      /*if(d_sample_count == d_T1_num_samples * 3){ //Should be well into signal. 
+      /*if(d_sample_count == d_T1_num_samples * 3){ //Should be well into signal.
 
-	int start_index = d_window_index - (d_T1_num_samples / 4) - 1; //Look back in buffer. 
+	int start_index = d_window_index - (d_T1_num_samples / 4) - 1; //Look back in buffer.
 	float * buffer = (float *)malloc((d_T1_num_samples / 4) * sizeof(float));
 	if (start_index < 0){
 	  start_index = d_window_length + start_index;  //Counting in from the end.
@@ -255,7 +255,7 @@ int rfid_command_gate_cc::general_work(int noutput_items,
 	for(int j = 0; j < d_T1_num_samples / 4; j++){
 
 	  buffer[j] = std::abs(d_window_samples[(j + start_index) % d_window_length]);
-	  
+
 	}
 	calc_signal_stats(buffer, d_T1_num_samples / 4, &global_reader_state->max_pwr, &global_reader_state->min_pwr, &global_reader_state->avg_pwr, &global_reader_state->std_dev_signal);
       }*/
@@ -320,7 +320,7 @@ int rfid_command_gate_cc::general_work(int noutput_items,
 			index=0;
 		}
 	}
-    }  
+    }
 
   }
 
@@ -328,7 +328,7 @@ int rfid_command_gate_cc::general_work(int noutput_items,
     //printf("d_pass_count:%d\n", d_pass_count);
     //printf("Trigger cycle:%d\n", global_reader_state->cur_cycle);
     trigger_cycle = false;
-    
+
     if(global_reader_state->cur_cycle < global_reader_state->num_cycles){
       gr_message_sptr ctrl_msg = gr_make_message(0,
 					     sizeof(int),
@@ -338,7 +338,7 @@ int rfid_command_gate_cc::general_work(int noutput_items,
       memcpy(ctrl_msg->msg(), &command, 1 * sizeof(int));
       d_ctrl_out->insert_tail(ctrl_msg);
       //printf("Timer fired starting cycle. Finished %d cycle.\n", global_reader_state->cur_cycle);
-      
+
     }
     if(global_reader_state->cur_cycle == global_reader_state->num_cycles + 1){
       printf("Last Cycle Started\n");
@@ -350,7 +350,7 @@ int rfid_command_gate_cc::general_work(int noutput_items,
   return written;
 }
 
-void 
+void
 rfid_command_gate_cc::calc_signal_stats(float * buffer, int len, double * max, double * min, double * avg, double * std_dev)
 {
 
@@ -374,17 +374,17 @@ rfid_command_gate_cc::calc_signal_stats(float * buffer, int len, double * max, d
 
     tmp_std_dev += std::pow((buffer[i] - tmp_avg)  ,2);
   }
-  
+
 
   tmp_std_dev = tmp_std_dev / len;
   tmp_std_dev = sqrt(tmp_std_dev);
- 
-  
+
+
   *avg = tmp_avg;
   *std_dev = tmp_std_dev;
 
 
-  
+
 }
 
 
@@ -394,6 +394,6 @@ rfid_command_gate_cc::forecast (int noutput_items, gr_vector_int &ninput_items_r
   unsigned ninputs = ninput_items_required.size ();
   for (unsigned i = 0; i < ninputs; i++){
     ninput_items_required[i] = noutput_items + history();
-  }   
+  }
 }
 

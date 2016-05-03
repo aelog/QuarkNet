@@ -1408,7 +1408,7 @@ AC_ARG_WITH(cppunit-exec-prefix,[  --with-cppunit-exec-prefix=PFX  Exec prefix w
   fi
 
   if test "x$no_cppunit" = x ; then
-     ifelse([$2], , :, [$2])     
+     ifelse([$2], , :, [$2])
   else
      CPPUNIT_CFLAGS=""
      CPPUNIT_LIBS=""
@@ -1421,7 +1421,7 @@ AC_ARG_WITH(cppunit-exec-prefix,[  --with-cppunit-exec-prefix=PFX  Exec prefix w
 m4trace:config/gr_git.m4:21: -1- AC_DEFUN([GR_GIT], [
   dnl Identify git binary
   AC_PATH_PROG([GIT],[git])
-  
+
   dnl If it exists, get either 'git describe' or fallback to current commit
   if test x$GIT != x ; then
     if (cd $srcdir && $GIT describe >/dev/null 2>&1); then
@@ -1440,7 +1440,7 @@ m4trace:config/gr_gprof.m4:24: -1- AC_DEFUN([GR_SET_GPROF], [
               [  --with-gprof            Turn on gprof profiling],
               [], [ with_gprof=no ])
   AC_MSG_RESULT($with_gprof)
-  
+
   dnl gprof profiling flags for the two main compilers
   cc_profiling_flags="-pg"
   cxx_profiling_flags="-pg"
@@ -1451,7 +1451,7 @@ m4trace:config/gr_gprof.m4:24: -1- AC_DEFUN([GR_SET_GPROF], [
     then
       LF_CHECK_CC_FLAG($cc_profiling_flags)
     fi
-    if test -n "${CXX}" 
+    if test -n "${CXX}"
     then
       LF_CHECK_CXX_FLAG($cxx_profiling_flags)
     fi
@@ -1464,7 +1464,7 @@ m4trace:config/gr_gprof.m4:49: -1- AC_DEFUN([GR_SET_PROF], [
               [  --with-prof             Turn on prof profiling],
               [], [ with_prof=no ])
   AC_MSG_RESULT($with_prof)
-  
+
   dnl prof profiling flags for the two main compilers
   cc_profiling_flags="-p"
   cxx_profiling_flags="-p"
@@ -1475,7 +1475,7 @@ m4trace:config/gr_gprof.m4:49: -1- AC_DEFUN([GR_SET_PROF], [
     then
       LF_CHECK_CC_FLAG($cc_profiling_flags)
     fi
-    if test -n "${CXX}" 
+    if test -n "${CXX}"
     then
       LF_CHECK_CXX_FLAG($cxx_profiling_flags)
     fi
@@ -1503,7 +1503,7 @@ m4trace:config/gr_lib64.m4:37: -1- AC_DEFUN([GR_LIB64], [
       gr_libdir_suffix=64
     fi
   else
-    _GR_LIB64_ASK_COMPILER  
+    _GR_LIB64_ASK_COMPILER
   fi
   AC_MSG_RESULT([$gr_libdir_suffix])
 
@@ -1666,7 +1666,7 @@ m4trace:config/gr_python.m4:27: -1- AC_DEFUN([PYTHON_DEVEL], [
 	AC_REQUIRE([AC_CANONICAL_HOST])
 
 	AC_ARG_WITH(pythondir,
-                    AC_HELP_STRING([--with-pythondir=DIR], 
+                    AC_HELP_STRING([--with-pythondir=DIR],
                        [python installation directory (cross-compiling) [[default=$prefix/lib/python2.5/site-packages]]]),
 		    [with_pythondir=${withval}],[with_pythondir=${prefix}/lib/python2.5/site-packages])
 
@@ -1751,7 +1751,7 @@ print path
 	      fi
 
 	      PYTHON_LDFLAGS="-L$python_stdlib_path -l$libpython_name"
-	      AC_MSG_RESULT($PYTHON_LDFLAGS) 
+	      AC_MSG_RESULT($PYTHON_LDFLAGS)
 	      # Replace all backslashes in PYTHON Paths with forward slashes
 	      pythondir=`echo $pythondir |sed 's,\\\\,/,g'`
 	      pkgpythondir=`echo $pkgpythondir |sed 's,\\\\,/,g'`
@@ -1852,7 +1852,7 @@ m4trace:config/gr_version.m4:20: -1- AC_DEFUN([GR_VERSION], [
   dnl Does not force recompile on rev change
   dnl
   dnl Source the variables describing the release version
-  dnl 
+  dnl
   dnl MAJOR_VERSION          Major release generation (2.x, 3.x, etc.)
   dnl API_COMPAT             API compatibility version (3.2.x, 3.3.x, etc.)
   dnl MINOR_VERSION          Minor release version
@@ -1862,7 +1862,7 @@ m4trace:config/gr_version.m4:20: -1- AC_DEFUN([GR_VERSION], [
   dnl that this branch is between versions.
   . $srcdir/version.sh
   RELEASE=$MAJOR_VERSION.$API_COMPAT
-  
+
   dnl Get git version if available
   GR_GIT
 
@@ -1888,7 +1888,7 @@ m4trace:config/gr_version.m4:20: -1- AC_DEFUN([GR_VERSION], [
       dnl a maintenance release
       if test "$MINOR_VERSION" != "0" -o "$MAINT_VERSION" != "0"; then
         dnl 3.3.1
-        RELEASE=$RELEASE.$MINOR_VERSION                          
+        RELEASE=$RELEASE.$MINOR_VERSION
         if test "$MAINT_VERSION" != "0"; then
           dnl 3.3.0.1, 3.3.1.1
           RELEASE=$RELEASE.$MAINT_VERSION
@@ -1984,7 +1984,7 @@ EOF
     if test -z "`${F77} $i -c conftest.f 2>&1`"
     then
       lf_FFLAGS="${lf_FFLAGS} $i"
-      AC_MSG_RESULT(yes)  
+      AC_MSG_RESULT(yes)
     else
       AC_MSG_RESULT(no)
     fi
@@ -2001,7 +2001,7 @@ m4trace:config/lf_warnings.m4:108: -1- AC_DEFUN([LF_SET_WARNINGS], [
   then
     LF_CHECK_CC_FLAG($cc_warning_flags)
   fi
-  if test -n "${CXX}" 
+  if test -n "${CXX}"
   then
     LF_CHECK_CXX_FLAG($cxx_warning_flags)
   fi
@@ -2932,7 +2932,7 @@ if test -n "$PKG_CONFIG"; then
 		AC_MSG_RESULT([no])
 		PKG_CONFIG=""
 	fi
-		
+
 fi[]dnl
 ])
 m4trace:config/pkg.m4:57: -1- AC_DEFUN([PKG_CHECK_EXISTS], [AC_REQUIRE([PKG_PROG_PKG_CONFIG])dnl
@@ -2977,7 +2977,7 @@ if test $pkg_failed = yes; then
         _PKG_SHORT_ERRORS_SUPPORTED
         if test $_pkg_short_errors_supported = yes; then
 	        $1[]_PKG_ERRORS=`$PKG_CONFIG --short-errors --errors-to-stdout --print-errors "$2"`
-        else 
+        else
 	        $1[]_PKG_ERRORS=`$PKG_CONFIG --errors-to-stdout --print-errors "$2"`
         fi
 	# Put the nasty error message in config.log where it belongs

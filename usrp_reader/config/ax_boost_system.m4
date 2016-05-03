@@ -33,7 +33,7 @@
 
 AC_DEFUN([AX_BOOST_SYSTEM],
 [
-    AC_REQUIRE([AX_BOOST_BASE])	
+    AC_REQUIRE([AX_BOOST_BASE])
     _AX_BOOST_CHECK([boost_system],
 		    [@%:@include <boost/system/error_code.hpp>],
 		    [boost::system::system_category])

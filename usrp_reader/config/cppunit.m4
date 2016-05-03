@@ -65,7 +65,7 @@ AC_ARG_WITH(cppunit-exec-prefix,[  --with-cppunit-exec-prefix=PFX  Exec prefix w
   fi
 
   if test "x$no_cppunit" = x ; then
-     ifelse([$2], , :, [$2])     
+     ifelse([$2], , :, [$2])
   else
      CPPUNIT_CFLAGS=""
      CPPUNIT_LIBS=""

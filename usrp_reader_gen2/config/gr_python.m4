@@ -1,23 +1,23 @@
 dnl
 dnl Copyright 2003,2004,2005 Free Software Foundation, Inc.
-dnl 
+dnl
 dnl This file is part of GNU Radio
-dnl 
+dnl
 dnl GNU Radio is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
 dnl the Free Software Foundation; either version 3, or (at your option)
 dnl any later version.
-dnl 
+dnl
 dnl GNU Radio is distributed in the hope that it will be useful,
 dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
 dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 dnl GNU General Public License for more details.
-dnl 
+dnl
 dnl You should have received a copy of the GNU General Public License
 dnl along with GNU Radio; see the file COPYING.  If not, write to
 dnl the Free Software Foundation, Inc., 51 Franklin Street,
 dnl Boston, MA 02110-1301, USA.
-dnl 
+dnl
 
 # PYTHON_DEVEL()
 #
@@ -29,7 +29,7 @@ AC_DEFUN([PYTHON_DEVEL],[
 	AC_REQUIRE([AC_CANONICAL_HOST])
 
 	AC_ARG_WITH(pythondir,
-                    AC_HELP_STRING([--with-pythondir=DIR], 
+                    AC_HELP_STRING([--with-pythondir=DIR],
                        [python installation directory (cross-compiling) [[default=$prefix/lib/python2.5/site-packages]]]),
 		    [with_pythondir=${withval}],[with_pythondir=${prefix}/lib/python2.5/site-packages])
 
@@ -114,7 +114,7 @@ print path
 	      fi
 
 	      PYTHON_LDFLAGS="-L$python_stdlib_path -l$libpython_name"
-	      AC_MSG_RESULT($PYTHON_LDFLAGS) 
+	      AC_MSG_RESULT($PYTHON_LDFLAGS)
 	      # Replace all backslashes in PYTHON Paths with forward slashes
 	      pythondir=`echo $pythondir |sed 's,\\\\,/,g'`
 	      pkgpythondir=`echo $pkgpythondir |sed 's,\\\\,/,g'`

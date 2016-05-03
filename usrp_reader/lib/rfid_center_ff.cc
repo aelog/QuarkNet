@@ -18,12 +18,12 @@ rfid_make_center_ff(int samples_per_pulse)
 }
 
 rfid_center_ff::rfid_center_ff(int samples_per_pulse)
-  : gr_sync_block("rfid_center_ff", 
+  : gr_sync_block("rfid_center_ff",
 		      gr_make_io_signature(1,1,sizeof(float)),
 		      gr_make_io_signature(1,1,sizeof(float))),
-    d_samples_per_pulse(samples_per_pulse) 
-    
-{ 
+    d_samples_per_pulse(samples_per_pulse)
+
+{
   int num_pulses = 32;  // Should be a large enough averaging window
 
   //Setup structure to hold samples. Used to track avg signal amplitude.
@@ -64,10 +64,10 @@ rfid_center_ff::work(int noutput_items,
   int start = 0;
 
   for(int i = 0; i < noutput_items; i++){
-  
+
      //Track average amplitude
-    d_avg_amp = ((d_avg_amp * (d_window_length - 1)) + 
-		 (d_avg_amp - d_window_samples[d_window_index]) + 
+    d_avg_amp = ((d_avg_amp * (d_window_length - 1)) +
+		 (d_avg_amp - d_window_samples[d_window_index]) +
 		 std::abs(in[i])) / d_window_length;       //Calculate avg by factoring out oldest value, adding newest
     d_window_samples[d_window_index] = std::abs(in[i]);    //Replace oldest value
     d_window_index = (d_window_index + 1) % d_window_length; //Increment point to oldest value
@@ -151,7 +151,7 @@ rfid_center_ff::work(int noutput_items,
   return noutput_items;
 }
 
-		
+
 void
 rfid_center_ff::forecast (int noutput_items, gr_vector_int &ninput_items_required)
 {
@@ -159,4 +159,4 @@ rfid_center_ff::forecast (int noutput_items, gr_vector_int &ninput_items_require
   for (unsigned i = 0; i < ninputs; i++){
     ninput_items_required[i] = noutput_items + history();
   }*/
-} 
+}

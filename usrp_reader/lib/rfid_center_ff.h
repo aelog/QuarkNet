@@ -13,7 +13,7 @@ rfid_center_ff_sptr
 rfid_make_center_ff(int samples_per_pulse);
 
 class rfid_center_ff : public gr_sync_block
-{  
+{
 
   friend rfid_center_ff_sptr
   rfid_make_center_ff(int samples_per_pulse);
@@ -26,7 +26,7 @@ class rfid_center_ff : public gr_sync_block
 protected:
 
   rfid_center_ff(int samples_per_pulse);
-  
+
 
 private:
   float * d_window_samples;   //Array to hold samples for averaging amplitude
@@ -44,7 +44,7 @@ private:
   float d_avg_amp_back;
   int amp_count;
   void forecast (int noutput_items, gr_vector_int &ninput_items_required);
- 
+
 };
 
 #endif /* INCLUDED_rfid_center_ff_H*/

@@ -27,7 +27,7 @@
 
 AC_DEFUN([AX_BOOST_DATE_TIME],
 [
-    AC_REQUIRE([AX_BOOST_BASE])	
+    AC_REQUIRE([AX_BOOST_BASE])
     _AX_BOOST_CHECK([boost_date_time],
 		    [@%:@include <boost/date_time/gregorian/gregorian_types.hpp>],
 		    [using namespace boost::gregorian; date d(2002,Jan,10); return 0;])

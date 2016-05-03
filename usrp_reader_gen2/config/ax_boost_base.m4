@@ -243,7 +243,7 @@ AC_DEFUN([_AX_BOOST_CHECK_LIB_],[
     dnl See if we can find a usable library
     link_ok="no"
     if test "$ax_boost_user_lib" != ""; then
-        dnl use what the user supplied 
+        dnl use what the user supplied
         for ax_lib in $ax_boost_user_lib $1-${ax_boost_user_lib}; do
 	    AC_CHECK_LIB($ax_lib, exit,
                          [$3="-l$ax_lib"; AC_SUBST($3) link_ok="yes"; break])
@@ -265,8 +265,8 @@ AC_DEFUN([_AX_BOOST_CHECK_LIB_],[
             AC_CHECK_LIB($ax_lib, exit,
                         [$3="-l$ax_lib"; AC_SUBST($3) link_ok="yes"; break])
 	done
-    fi		    
-		    		    
+    fi
+
     if test "$link_ok" != "yes"; then
     	AC_MSG_ERROR([Could not link against lib[$1]!])
     fi

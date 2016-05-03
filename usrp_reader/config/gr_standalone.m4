@@ -1,18 +1,18 @@
 dnl
 dnl Copyright 2008,2009 Free Software Foundation, Inc.
-dnl 
+dnl
 dnl This file is part of GNU Radio
-dnl 
+dnl
 dnl GNU Radio is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
 dnl the Free Software Foundation; either version 3, or (at your option)
 dnl any later version.
-dnl 
+dnl
 dnl GNU Radio is distributed in the hope that it will be useful,
 dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
 dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 dnl GNU General Public License for more details.
-dnl 
+dnl
 dnl You should have received a copy of the GNU General Public License along
 dnl with this program; if not, write to the Free Software Foundation, Inc.,
 dnl 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
@@ -44,7 +44,7 @@ m4_define([GR_STANDALONE],
   dnl didn't specify them.  Though I'm sure somebody thought this was
   dnl a good idea, it makes it hard to use other than -g -O2 when compiling
   dnl selected files.  Thus we "undo" the damage here...
-  dnl 
+  dnl
   dnl If the user specified CXXFLAGS, we use them.  Otherwise when compiling
   dnl the output of swig use use -O1 if we're using g++.
   dnl See Makefile.common for the rest of the magic.
@@ -57,7 +57,7 @@ m4_define([GR_STANDALONE],
 	   dnl (at least as of g++ 4.1.1)
 	   swig_CXXFLAGS="-g1 -O2 -Wno-strict-aliasing -Wno-parentheses"
 	;;
-    	*) 
+    	*)
 	swig_CXXFLAGS="-g -O1 -Wno-strict-aliasing -Wno-parentheses"
 	;;
       esac
@@ -111,7 +111,7 @@ m4_define([GR_STANDALONE],
   PKG_CHECK_MODULES(GNURADIO_CORE, gnuradio-core >= 3)
   LIBS="$LIBS $GNURADIO_CORE_LIBS"
 
-  dnl Allow user to choose whether to generate SWIG/Python 
+  dnl Allow user to choose whether to generate SWIG/Python
   dnl Default is enabled
   AC_ARG_ENABLE([python],
     [AS_HELP_STRING([--enable-python],
@@ -121,7 +121,7 @@ m4_define([GR_STANDALONE],
        no) enable_python=no ;;
        *) AC_MSG_ERROR([bad value ${enableval} for --enable-python]) ;;
      esac],
-    [enable_python=yes]  
+    [enable_python=yes]
   )
   AM_CONDITIONAL([PYTHON], [test x$enable_python = xyes])
 

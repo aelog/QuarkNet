@@ -17,16 +17,16 @@ class rfid_command_gate_cc;
 typedef boost::shared_ptr<rfid_command_gate_cc> rfid_command_gate_cc_sptr;
 
 
-rfid_command_gate_cc_sptr 
+rfid_command_gate_cc_sptr
 rfid_make_command_gate_cc (int pw, int T1, int sample_rate);
 
-class rfid_command_gate_cc : public gr_block 
+class rfid_command_gate_cc : public gr_block
 {
- 
+
  private:
   friend rfid_command_gate_cc_sptr
   rfid_make_command_gate_cc (int pw, int T1, int sample_rate);
- 
+
   float                   d_us_per_rcv;
   int	                d_pw;  //Reader pulsewidth in us
   int                   d_T1;  //T1 value according to spec
@@ -36,8 +36,8 @@ class rfid_command_gate_cc : public gr_block
   double                d_max_rssi, d_min_rssi, d_avg_rssi, d_std_dev_rssi;
   int                   d_sample_count;
   int                   d_num_pulses;
-  
- 
+
+
   float static const AVG_WIN = 1500; // Window to average amplitude over, in us
   float static const THRESH_FRACTION = 0.75; //Percent of avg amplitude to detect edges
   double static const MIN_AMP_THRESH = 0;     //Eventually, expose as user parameter
@@ -56,15 +56,15 @@ class rfid_command_gate_cc : public gr_block
   bool is_negative_edge(float sample);
   bool is_positive_edge(float sample);
   void calc_signal_stats(float * buffer, int len, double * max, double * min, double* avg, double * std_dev );
-  
 
 
-  
- 
+
+
+
  public:
   ~rfid_command_gate_cc();
-    
-  int general_work(int noutput_items, 
+
+  int general_work(int noutput_items,
 		   gr_vector_int &ninput_items,
 		   gr_vector_const_void_star &input_items,
 		   gr_vector_void_star &output_items);

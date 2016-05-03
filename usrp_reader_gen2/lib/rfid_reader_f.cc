@@ -19,7 +19,7 @@ rfid_reader_f_sptr
 rfid_make_reader_f (int sample_rate)
 {
   return rfid_reader_f_sptr(new rfid_reader_f (sample_rate));
-} 
+}
 
 
 
@@ -34,9 +34,9 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
 
   log_q = gr_make_msg_queue(500000);//Holds log messages, drained by python app
   out_q = gr_make_msg_queue(1000);  //Holds messages for transmission at the end of work
-  
+
   d_us_per_xmit = 1000000 / (float)sample_rate;
-  
+
 
 
   //Create data-1 array
@@ -59,7 +59,7 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
     d_zero[i] = 0;
   }
 
-   //Set up cw and zero buffers 
+   //Set up cw and zero buffers
   cw_buffer = (float *)malloc(8196 * sizeof(float));
   for(int i = 0; i < 8196; i++){
     cw_buffer[i] = 1;
@@ -91,7 +91,7 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
   d_reader_framesync = (float *)malloc(d_reader_framesync_len * sizeof(float));
   memcpy(d_reader_framesync, tmp_framesync, d_reader_framesync_len * sizeof(float));
 
- 
+
 
    char CMD[5] = "1000";
    memcpy(d_CMD, CMD, 5);
@@ -120,8 +120,8 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
 
 
    global_reader_state->num_rounds = READER_NUM_ROUNDS;
-   
-   global_reader_state->num_cycles = READER_NUM_CYCLES; 
+
+   global_reader_state->num_cycles = READER_NUM_CYCLES;
    global_reader_state->cur_cycle = 0;
 
    Q_fp = INIT_QFP;
@@ -162,27 +162,27 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
 
    global_reader_state->command_gate_status = GATE_RESET;
    if(ctrl == TIMER_FIRED){
-    
+
      start_cycle();
      send_query();
-    
-     
+
+
    }
    if(ctrl == BITS_DECODED){
-    
+
      if(global_reader_state->last_cmd_sent == QUERY || global_reader_state->last_cmd_sent == QREP){
-        
-       
+
+
        //Tag responses must end in 1. Don't bother sending the ACK
        if (global_reader_state->tag_bit_vector[global_reader_state->num_bits_to_decode - 1] == '0'){
-	 
+
 	 global_reader_state->tag_bit_vector[global_reader_state->num_bits_to_decode - 1] = '\0';
 	 char tmp[500];
 	 char tmp2[500];
 	 strcpy(tmp, global_reader_state->tag_bit_vector);
 	 sprintf(tmp2, ",%f\n", global_reader_state->std_dev_signal / global_reader_state->std_dev_noise);
 	 strcat(tmp, tmp2);
-	 
+
 	 update_q(2);  //We assume this is a collision, because collided preamble correlate often.
 
 	 log_msg(LOG_RN16, tmp, LOG_ERROR);
@@ -193,7 +193,7 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
 	   send_query();
 	 }*/
 	 send_ack();
-	 
+
        }
        //RN16 decoded. ACK it
        else{
@@ -204,7 +204,7 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
 	 strcpy(tmp, global_reader_state->tag_bit_vector);
 	 sprintf(tmp2, ",%f\n", global_reader_state->std_dev_signal / global_reader_state->std_dev_noise);
 	 strcat(tmp, tmp2);
-	 
+
 	 log_msg(LOG_RN16, tmp, LOG_OKAY);
 	 send_ack();
        }
@@ -213,7 +213,7 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
      //Decoded EPC
      else if(global_reader_state->last_cmd_sent == ACK){
 
-       update_q(1);  //We at least found a preamble, so there must be a tag there. 
+       update_q(1);  //We at least found a preamble, so there must be a tag there.
 
        global_reader_state->tag_bit_vector[global_reader_state->num_bits_to_decode - 1] = '\0';
        char tmp[500];
@@ -222,97 +222,97 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
        sprintf(tmp2, ",%f\n", global_reader_state->std_dev_signal / global_reader_state->std_dev_noise);
        strcat(tmp, tmp2);
        int pass = check_crc(global_reader_state->tag_bit_vector, global_reader_state->num_bits_to_decode);
-       
+
        //No Errors, send Qrep
        if(pass == 1){
 
 	 d_tags_read_in_cycle++;
 	 log_msg(LOG_EPC, tmp, LOG_OKAY);
-	 if(READ_DATA){  //Flag for sending REQ_RN. 
+	 if(READ_DATA){  //Flag for sending REQ_RN.
 	   send_req_rn();
 	 }
 	 else{
 	   send_qrep();  //Always send QRep so tag knows it was read
 	 }
-	 
+
        }
        else{
 
 	 log_msg(LOG_EPC, tmp, LOG_ERROR);
 	 send_nak();
-	 //If there are more slots, send QREP. Otherwise, send another query. 
+	 //If there are more slots, send QREP. Otherwise, send another query.
 	 if(global_reader_state->cur_slot < global_reader_state->num_slots){
 
 	   send_qrep();
-       
+
 	 }
 	 else if(send_another_query()){
 	   send_query();
 	 }
-	 
+
        }
-       
-       
+
+
      }
      //Decoded handle, send READ command
      else if(global_reader_state->last_cmd_sent == REQ_RN){
-       
+
        global_reader_state->tag_bit_vector[global_reader_state->num_bits_to_decode - 1] = '\0';
        char tmp[500];
        char tmp2[500];
        strcpy(tmp, global_reader_state->tag_bit_vector);
        sprintf(tmp2, ",%f\n", global_reader_state->std_dev_signal / global_reader_state->std_dev_noise);
-       strcat(tmp, tmp2);    
+       strcat(tmp, tmp2);
        log_msg(LOG_HANDLE, tmp, LOG_OKAY);
        char * handle;
        memcpy(last_handle, global_reader_state->tag_bit_vector, 16 * sizeof(char));
        handle = last_handle;
        gen_read_cmd(handle);
        send_read();
-       
+
 
      }
      //Decoded data. DOES NOT CHECK CRC.
      else if(global_reader_state->last_cmd_sent == READ){
-      
+
        global_reader_state->tag_bit_vector[global_reader_state->num_bits_to_decode - 1] = '\0';
        char tmp[500];
        char tmp2[500];
        strcpy(tmp, global_reader_state->tag_bit_vector);
        sprintf(tmp2, ",%f\n", global_reader_state->std_dev_signal / global_reader_state->std_dev_noise);
-       strcat(tmp, tmp2);    
+       strcat(tmp, tmp2);
        log_msg(LOG_DATA, tmp, LOG_OKAY);
 
 
        //Send another qrep or query
        if(global_reader_state->cur_slot < global_reader_state->num_slots){
 	 send_qrep();
-	 
+
        }
        else if (send_another_query()){
-	 
+
 	 send_query();
        }
 
      }
    }
-   
+
    if(ctrl == NO_PREAMBLE){
      char tmp[500];
-     
-   
+
+
 
      if(global_reader_state->std_dev_signal / global_reader_state->std_dev_noise > collision_threshold){//Detected a signal
        if(global_reader_state->last_cmd_sent == ACK){  //Maybe we missed the preamble. But there was a signal
-	 update_q(1);  
+	 update_q(1);
        }
        else if(global_reader_state->last_cmd_sent == QUERY || global_reader_state->last_cmd_sent == QREP){// Collision
-	 update_q(2); 
+	 update_q(2);
        }
      }
      else{
        if(global_reader_state->last_cmd_sent == ACK){  //We probably correlated on a collision. Maybe we got the bits wrong, but we err this direction.
-	 update_q(2);  
+	 update_q(2);
        }
        else if(global_reader_state->last_cmd_sent == QUERY || global_reader_state->last_cmd_sent == QREP){
 	 update_q(0);
@@ -327,7 +327,7 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
      if(global_reader_state->cur_slot < global_reader_state->num_slots){
 
        send_qrep();
-       
+
      }
      else if (send_another_query()){
 
@@ -344,7 +344,7 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
      tx_msg = out_q->delete_head_nowait();
    }
 
-   //Transmit noutout_items worth of command, if there is more reschedule this block. 
+   //Transmit noutout_items worth of command, if there is more reschedule this block.
    while(tx_msg){
 
 
@@ -356,12 +356,12 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
      if(d_msg_count == (int)tx_msg->length()){
        tx_msg.reset();
        d_msg_count = 0;
-       tx_msg = out_q->delete_head_nowait(); 
-     
+       tx_msg = out_q->delete_head_nowait();
+
 
      }
 
-     if(written == noutput_items && tx_msg){ 
+     if(written == noutput_items && tx_msg){
        break;
      }
 
@@ -373,7 +373,7 @@ rfid_reader_f::rfid_reader_f (int sample_rate)
    return written;
  }
 
-void 
+void
 rfid_reader_f::start_cycle(){
 
   Q_fp = INIT_QFP;
@@ -388,11 +388,11 @@ rfid_reader_f::start_cycle(){
   log_msg(LOG_START_CYCLE, NULL, LOG_OKAY);
 
   global_reader_state->cur_round = 0;
-  
+
   int min_pwr_dwn = 1000;  //Spec says 1000.
 
   num_pkts = ((min_pwr_dwn / d_us_per_xmit) / usrp_pkt_size); //Round to the nearest usrp_pkt_size samples
-  
+
   for(int i = 0; i < num_pkts; i++){
     gr_message_sptr pwr_dwn_msg = gr_make_message(0,
 						  sizeof(float),
@@ -401,15 +401,15 @@ rfid_reader_f::start_cycle(){
     memcpy(pwr_dwn_msg->msg(), zero_buffer, (usrp_pkt_size) * sizeof(float));
     out_q->insert_tail(pwr_dwn_msg);
   }
-  
-  
+
+
 }
 
 
  void rfid_reader_f::send_query(){
    //Generate query to update Q etc.
    gen_query_cmd();
-   
+
    //Sending a query.
    global_reader_state->last_cmd_sent = QUERY;
    global_reader_state->cur_slot = 1;
@@ -424,12 +424,12 @@ rfid_reader_f::start_cycle(){
 
 
    log_msg(LOG_QUERY, NULL, LOG_OKAY);
-   
+
    int min_cw = 1500;
-   
-  
+
+
    num_pkts = ((min_cw / d_us_per_xmit) / usrp_pkt_size);
-   
+
    for(int i = 0; i < num_pkts; i++){
      gr_message_sptr cw_msg = gr_make_message(0,
 					      sizeof(float),
@@ -445,7 +445,7 @@ rfid_reader_f::start_cycle(){
    memcpy(query_msg->msg(), d_query_cmd, d_query_len * sizeof(float));
    out_q->insert_tail(query_msg);
 
-   
+
    int tail_cw;
    if(TRANSMIT_CW){
      tail_cw =  global_reader_state->T1_value + (global_reader_state->num_samples_to_ungate * global_reader_state->us_per_rcv);
@@ -486,16 +486,16 @@ rfid_reader_f::start_cycle(){
 
 
 
- 
+
 
 
  }
 
- void 
+ void
  rfid_reader_f::send_qrep(){
 
    log_msg(LOG_QREP, NULL, LOG_OKAY);
-   
+
    global_reader_state->cur_slot++;
    global_reader_state->last_cmd_sent = QREP;
 
@@ -526,7 +526,7 @@ rfid_reader_f::start_cycle(){
    }
 
 
-   
+
    int qrep_pad_len = 26;  //This is a hack. It is the right padding for the Qrep, but is hardcoded here.
    for(int i = 0; i < (((tail_cw / d_us_per_xmit) - qrep_pad_len)  / usrp_pkt_size) ; i++){
 
@@ -646,7 +646,7 @@ rfid_reader_f::send_read(){
    memcpy(nak_msg->msg(), d_nak, d_nak_len * sizeof(float));
    out_q->insert_tail(nak_msg);
 
-   int spacing = 128;  
+   int spacing = 128;
    int num_pkts;
    num_pkts = ((spacing / d_us_per_xmit) / usrp_pkt_size); //Round to the nearest usrp_pkt_size samples
 
@@ -660,16 +660,16 @@ rfid_reader_f::send_read(){
    }
 
 
-   
+
  }
 
 
- void 
+ void
  rfid_reader_f::send_ack(){
    float ack_msg[8196];
 
    log_msg(LOG_ACK, NULL, LOG_OKAY);
-   
+
    global_reader_state->last_cmd_sent = ACK;
 
 
@@ -692,7 +692,7 @@ rfid_reader_f::send_read(){
      }
      else{
        memcpy((float *)&ack_msg[len], d_one, d_one_len * sizeof(float));
-       len += d_one_len; 
+       len += d_one_len;
      }
 
    }
@@ -715,7 +715,7 @@ rfid_reader_f::send_read(){
    memcpy(new_tx_msg->msg(), tmp, (pad + len) *sizeof(float));
    out_q->insert_tail(new_tx_msg);
 
-   
+
    global_reader_state->num_bits_to_decode = no_EPC_bits;
    global_reader_state->num_bits_decoded = 0;
    set_num_samples_to_ungate();
@@ -762,18 +762,18 @@ rfid_reader_f::send_read(){
 
    int len_query = 22;
 
-   char * q_bits; 
+   char * q_bits;
 
 
    if(CHANGE_Q){
      if(OPTIMAL_Q){
        if(NUM_TAGS - d_tags_read_in_cycle > 0){
 	 memcpy(d_Q, opt_q_strings[NUM_TAGS - d_tags_read_in_cycle - 1 ], 5);
-	 //printf("%d left, Q = :%s\n", NUM_TAGS - d_tags_read_in_cycle,opt_q_strings[NUM_TAGS - d_tags_read_in_cycle - 1]); 
+	 //printf("%d left, Q = :%s\n", NUM_TAGS - d_tags_read_in_cycle,opt_q_strings[NUM_TAGS - d_tags_read_in_cycle - 1]);
        }
        else{
 	  int Q = (int)Q_fp;
-	  
+
 	  if(Q > 8){  //I'm lazy and only filled in the table to 8
 	    printf("Q > 8. Not changing. Q:%d\n", Q);
 	    printf("NUmTags: %d Read: %d\n", NUM_TAGS, d_tags_read_in_cycle);
@@ -785,13 +785,13 @@ rfid_reader_f::send_read(){
 	    memcpy(d_Q, q_strings[0], 5);
 	  }
        }
-       
-       
+
+
      }
      else{
 
        int Q = (int)Q_fp;
-       
+
        if(Q > 8){  //I'm lazy and only filled in the table to 8
 	 printf("Q > 8. Not changing. Q:%d\n", Q);
        }
@@ -799,7 +799,7 @@ rfid_reader_f::send_read(){
 	 memcpy(d_Q, q_strings[Q], 5);
        }
      }
-     
+
 
    }
 
@@ -908,13 +908,13 @@ rfid_reader_f::send_read(){
    int pad = usrp_pkt_size - (d_query_len % usrp_pkt_size);
 
    d_query_len += pad;
-   d_query_cmd = (float * )malloc((d_query_len) * sizeof(float)); 
+   d_query_cmd = (float * )malloc((d_query_len) * sizeof(float));
 
    int j = 0;
    //Pad for USB buffer size
    for(int i = 0; i < pad; i++){
      d_query_cmd[j++] = 1;
-   } 
+   }
 
    memcpy(&d_query_cmd[j], d_reader_framesync, d_reader_framesync_len * sizeof(float));
    j += d_reader_framesync_len;
@@ -943,7 +943,7 @@ rfid_reader_f::send_read(){
      }
    }
 
-  
+
    //if(strcmp(global_reader_state->M, "00") == 0){
    // global_reader_state->tag_preamble_cor_vec = fm0_preamble;
    // global_reader_state->tag_preamble_cor_vec_len = len_fm0_preamble;
@@ -956,7 +956,7 @@ rfid_reader_f::send_read(){
      global_reader_state->tag_one_cor_vec = m8_data_one_vec;
      global_reader_state->tag_one_cor_vec_len = m8_one_len;
      global_reader_state->num_pulses_per_bit = 16;
-     global_reader_state->num_samples_per_bit = global_reader_state->num_pulses_per_bit * global_reader_state->num_samples_per_pulse; 
+     global_reader_state->num_samples_per_bit = global_reader_state->num_pulses_per_bit * global_reader_state->num_samples_per_pulse;
 
    }
    if(strcmp(d_M, "10") == 0){
@@ -965,7 +965,7 @@ rfid_reader_f::send_read(){
      global_reader_state->tag_one_cor_vec = m4_data_one_vec;
      global_reader_state->tag_one_cor_vec_len = m4_one_len;
      global_reader_state->num_pulses_per_bit = 8;
-     global_reader_state->num_samples_per_bit = global_reader_state->num_pulses_per_bit * global_reader_state->num_samples_per_pulse; 
+     global_reader_state->num_samples_per_bit = global_reader_state->num_pulses_per_bit * global_reader_state->num_samples_per_pulse;
 
    }
    if(strcmp(d_M, "01") == 0){
@@ -974,7 +974,7 @@ rfid_reader_f::send_read(){
      global_reader_state->tag_one_cor_vec = m2_data_one_vec;
      global_reader_state->tag_one_cor_vec_len = m2_one_len;
      global_reader_state->num_pulses_per_bit = 4;
-     global_reader_state->num_samples_per_bit = global_reader_state->num_pulses_per_bit * global_reader_state->num_samples_per_pulse; 
+     global_reader_state->num_samples_per_bit = global_reader_state->num_pulses_per_bit * global_reader_state->num_samples_per_pulse;
    }
 
  }
@@ -1013,7 +1013,7 @@ rfid_reader_f::send_read(){
  }
 
 //This is a dummy function. It works for the WISP, as it just checks opcode and length.
-void 
+void
 rfid_reader_f::gen_req_rn_cmd(){
   int len = 0;
   float tmp_req_rn[8196];
@@ -1138,7 +1138,7 @@ rfid_reader_f::gen_read_cmd(char * handle){
   memcpy(&tmp_read[len], d_zero, d_zero_len * sizeof(float));
   len += d_zero_len;
 
-  
+
 
   for (int i = 0; i < 16; i++){
     if(handle[i] == '0'){
@@ -1152,7 +1152,7 @@ rfid_reader_f::gen_read_cmd(char * handle){
 
   }
 
-  
+
   //32 bits
  memcpy(&tmp_read[len], d_one, d_one_len * sizeof(float));
   len += d_one_len;
@@ -1224,18 +1224,18 @@ rfid_reader_f::gen_read_cmd(char * handle){
   len += d_one_len;
   memcpy(&tmp_read[len], d_one, d_one_len * sizeof(float));
   len += d_one_len;
-  
+
   int pad = (usrp_pkt_size ) - (len % usrp_pkt_size);
   d_read = (float *)malloc((len + pad) * sizeof(float));
    memcpy(d_read, tmp_read, len * sizeof(float));
    memcpy(&d_read[len], cw_buffer, pad * sizeof(float));
-   
+
    d_read_len = len + pad;
 
 
 }
 
- void 
+ void
  rfid_reader_f::gen_qrep_cmd(){
 
    int len = 0;
@@ -1247,7 +1247,7 @@ rfid_reader_f::gen_read_cmd(char * handle){
    memcpy(&tmp_qrep[len], d_zero, d_zero_len * sizeof(float));
    len += d_zero_len;
 
-   if(d_session[0] == '0'){ 
+   if(d_session[0] == '0'){
      memcpy(&tmp_qrep[len], d_zero, d_zero_len * sizeof(float));
      len += d_zero_len;
    }
@@ -1256,7 +1256,7 @@ rfid_reader_f::gen_read_cmd(char * handle){
      len += d_one_len;
    }
 
-   if(d_session[1] == '0'){ 
+   if(d_session[1] == '0'){
      memcpy(&tmp_qrep[len], d_zero, d_zero_len * sizeof(float));
      len += d_zero_len;
    }
@@ -1276,7 +1276,7 @@ rfid_reader_f::gen_read_cmd(char * handle){
 //0: 0 tags
 //1: 1 tag
 //2: 2 or more tags
-void 
+void
 rfid_reader_f::update_q(int slot_occupancy){
   static float C = 0.5;
 
@@ -1292,12 +1292,12 @@ rfid_reader_f::update_q(int slot_occupancy){
 	 Q_fp = std::min(float(15), Q_fp + C);
 	 break;
   }
-  
+
 }
 
 bool
 rfid_reader_f::send_another_query(){
-  
+
 
   if(CHANGE_Q){
 
@@ -1308,7 +1308,7 @@ rfid_reader_f::send_another_query(){
       d_num_empty_rounds = 0;
     }
     d_slots_occupied = 0;
-  
+
     if(d_num_empty_rounds == 2){
 
       if(!TIMED_CYCLE_MODE && global_reader_state->cur_cycle < global_reader_state->num_cycles){
@@ -1319,7 +1319,7 @@ rfid_reader_f::send_another_query(){
       printf("Finished %d cycles.\n", global_reader_state->cur_cycle);
       return false;
     }
-    else{     
+    else{
       return true;
     }
   }
@@ -1349,7 +1349,7 @@ rfid_reader_f::send_another_query(){
    unsigned ninputs = ninput_items_required.size ();
    for (unsigned i = 0; i < ninputs; i++){
      ninput_items_required[i] = 0;  //Always want to be scheduled to check for message
-   }   
+   }
 
  }
 
@@ -1363,7 +1363,7 @@ rfid_reader_f::send_another_query(){
    data = (unsigned char* )malloc(num_bytes );
    int mask;
 
-  
+
    for(i = 0; i < num_bytes; i++){
      mask = 0x80;
      data[i] = 0;
@@ -1377,7 +1377,7 @@ rfid_reader_f::send_another_query(){
    }
    rcvd_crc = (data[num_bytes - 2] << 8) + data[num_bytes -1];
 
-   crc_16 = 0xFFFF; 
+   crc_16 = 0xFFFF;
    for (i=0; i < num_bytes - 2; i++) {
      crc_16^=data[i] << 8;
      for (j=0;j<8;j++) {
@@ -1403,7 +1403,7 @@ rfid_reader_f::send_another_query(){
 
 void
 rfid_reader_f::set_num_samples_to_ungate(){
-  global_reader_state->num_samples_to_ungate = 100 + global_reader_state->num_samples_per_bit * 
+  global_reader_state->num_samples_to_ungate = 100 + global_reader_state->num_samples_per_bit *
     (global_reader_state->num_bits_to_decode + global_reader_state->num_bits_in_preamble) + (int)(250 / global_reader_state->us_per_rcv);
 }
 void
@@ -1420,13 +1420,13 @@ rfid_reader_f::log_msg(int message, char * text, int error){
       else{
 	len = sprintf(msg,"Time: %d.%03ld\n", (t_info->tm_hour * 3600) +  (t_info->tm_min * 60) + t_info->tm_sec, time.tv_usec / 1000 );
       }
-      gr_message_sptr log_msg = gr_make_message(message, 
+      gr_message_sptr log_msg = gr_make_message(message,
 						0,
 						error,
 						len);
       memcpy(log_msg->msg(), msg, len);
-      
-      
+
+
       log_q->insert_tail(log_msg);
     }
 }

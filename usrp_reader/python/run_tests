@@ -4,7 +4,7 @@
 # tests using our just built shared library and swig-generated python
 # code prior to installation.
 
-# build tree == src tree unless you're doing a VPATH build.  
+# build tree == src tree unless you're doing a VPATH build.
 # If you don't know what a VPATH build is, you're not doing one.  Relax...
 
 prefix=/usr/local
@@ -39,7 +39,7 @@ do
   if ! $file
   then
     ok=no
-  fi  
+  fi
 done
 
 if [ $ok = yes ]

@@ -98,7 +98,7 @@ COLLECT_LTO_WRAPPER=/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/lto-wra
 Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu/Linaro 4.5.2-8ubuntu4' --with-bugurl=file:///usr/share/doc/gcc-4.5/README.Bugs --enable-languages=c,c++,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.5 --enable-shared --enable-multiarch --with-multiarch-defaults=x86_64-linux-gnu --enable-linker-build-id --with-system-zlib --libexecdir=/usr/lib/x86_64-linux-gnu --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.5 --libdir=/usr/lib/x86_64-linux-gnu --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-plugin --enable-gold --enable-ld=default --with-plugin-ld=ld.gold --enable-objc-gc --disable-werror --with-arch-32=i686 --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
-gcc version 4.5.2 (Ubuntu/Linaro 4.5.2-8ubuntu4) 
+gcc version 4.5.2 (Ubuntu/Linaro 4.5.2-8ubuntu4)
 configure:3760: $? = 0
 configure:3749: gcc -V >&5
 gcc: '-V' option must have argument
@@ -116,7 +116,7 @@ configure:3859: result: a.out
 configure:3865: checking for suffix of executables
 configure:3872: gcc -o conftest    conftest.c  >&5
 configure:3876: $? = 0
-configure:3898: result: 
+configure:3898: result:
 configure:3920: checking whether we are cross compiling
 configure:3928: gcc -o conftest    conftest.c  >&5
 configure:3932: $? = 0
@@ -344,7 +344,7 @@ COLLECT_LTO_WRAPPER=/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/lto-wra
 Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu/Linaro 4.5.2-8ubuntu4' --with-bugurl=file:///usr/share/doc/gcc-4.5/README.Bugs --enable-languages=c,c++,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.5 --enable-shared --enable-multiarch --with-multiarch-defaults=x86_64-linux-gnu --enable-linker-build-id --with-system-zlib --libexecdir=/usr/lib/x86_64-linux-gnu --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.5 --libdir=/usr/lib/x86_64-linux-gnu --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-plugin --enable-gold --enable-ld=default --with-plugin-ld=ld.gold --enable-objc-gc --disable-werror --with-arch-32=i686 --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
-gcc version 4.5.2 (Ubuntu/Linaro 4.5.2-8ubuntu4) 
+gcc version 4.5.2 (Ubuntu/Linaro 4.5.2-8ubuntu4)
 configure:5003: $? = 0
 configure:4992: g++ -V >&5
 g++: '-V' option must have argument
@@ -436,7 +436,7 @@ configure:5417: g++ -c -g -O2  conftest.cpp >&5
 configure:5417: $? = 0
 configure:5418: result: yes
 configure:5441: checking gr_libdir_suffix
-configure:5472: result: 
+configure:5472: result:
 configure:5476: checking whether to append 64 to libdir
 configure:5484: result: no
 configure:5520: checking whether gcc accepts -Wall
@@ -526,7 +526,7 @@ COLLECT_LTO_WRAPPER=/usr/lib/x86_64-linux-gnu/gcc/x86_64-linux-gnu/4.5.2/lto-wra
 Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu/Linaro 4.5.2-8ubuntu4' --with-bugurl=file:///usr/share/doc/gcc-4.5/README.Bugs --enable-languages=c,c++,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.5 --enable-shared --enable-multiarch --with-multiarch-defaults=x86_64-linux-gnu --enable-linker-build-id --with-system-zlib --libexecdir=/usr/lib/x86_64-linux-gnu --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.5 --libdir=/usr/lib/x86_64-linux-gnu --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-plugin --enable-gold --enable-ld=default --with-plugin-ld=ld.gold --enable-objc-gc --disable-werror --with-arch-32=i686 --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
-gcc version 4.5.2 (Ubuntu/Linaro 4.5.2-8ubuntu4) 
+gcc version 4.5.2 (Ubuntu/Linaro 4.5.2-8ubuntu4)
 configure:8838: $? = 0
 configure:8827: g++ -V >&5
 g++: '-V' option must have argument
@@ -819,7 +819,7 @@ configure: failed program was:
 | 	       not a universal capable compiler
 | 	     #endif
 | 	     typedef int dummy;
-| 
+|
 configure:16468: gcc -c -g -O2  conftest.c >&5
 configure:16468: $? = 0
 configure:16486: gcc -c -g -O2  conftest.c >&5
@@ -862,14 +862,14 @@ configure: failed program was:
 | /* end confdefs.h.  */
 | #include <sys/types.h>
 | 		#include <sys/param.h>
-| 
+|
 | int
 | main ()
 | {
 | #if BYTE_ORDER != BIG_ENDIAN
 | 		 not big endian
 | 		#endif
-| 
+|
 |   ;
 |   return 0;
 | }
@@ -1159,12 +1159,12 @@ configure: failed program was:
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_FCNTL_H 1
 | /* end confdefs.h.  */
-| 
+|
 | 	#if HAVE_WINDOWS_H
 | 	#include <windows.h>
 | 	#endif
-| 
-| 
+|
+|
 | #include <winioctl.h>
 configure:16663: result: no
 configure:16663: checking for winbase.h
@@ -1206,12 +1206,12 @@ configure: failed program was:
 | #define HAVE_SYS_TYPES_H 1
 | #define HAVE_FCNTL_H 1
 | /* end confdefs.h.  */
-| 
+|
 | 	#if HAVE_WINDOWS_H
 | 	#include <windows.h>
 | 	#endif
-| 
-| 
+|
+|
 | #include <winbase.h>
 configure:16663: result: no
 configure:16682: checking for getopt
@@ -1305,7 +1305,7 @@ configure: failed program was:
 | #define HAVE_SLEEP 1
 | #define HAVE_SIGACTION 1
 | /* end confdefs.h.  */
-| 
+|
 |      #if HAVE_SYS_TYPES_H
 |      # include <sys/types.h>
 |      #endif
@@ -1319,8 +1319,8 @@ configure: failed program was:
 |      #  include <time.h>
 |      # endif
 |      #endif
-| 
-| 
+|
+|
 | int
 | main ()
 | {
@@ -1382,7 +1382,7 @@ configure: failed program was:
 | #define HAVE_SIGACTION 1
 | #define HAVE_STRUCT_TIMEZONE 1
 | /* end confdefs.h.  */
-| 
+|
 |      #if HAVE_SYS_TYPES_H
 |      # include <sys/types.h>
 |      #endif
@@ -1396,8 +1396,8 @@ configure: failed program was:
 |      #  include <time.h>
 |      # endif
 |      #endif
-| 
-| 
+|
+|
 | int
 | main ()
 | {
@@ -1460,7 +1460,7 @@ configure: failed program was:
 | #define HAVE_STRUCT_TIMEZONE 1
 | #define HAVE_STRUCT_TIMESPEC 1
 | /* end confdefs.h.  */
-| 
+|
 |      #if HAVE_SYS_TYPES_H
 |      # include <sys/types.h>
 |      #endif
@@ -1474,8 +1474,8 @@ configure: failed program was:
 |      #  include <time.h>
 |      # endif
 |      #endif
-| 
-| 
+|
+|
 | int
 | main ()
 | {
@@ -1548,7 +1548,7 @@ configure: failed program was:
 | /* end confdefs.h.  */
 |    #include <windows.h>
 |                 #include <winbase.h>
-| 
+|
 | int
 | main ()
 | {
@@ -1619,9 +1619,9 @@ configure: failed program was:
 | int
 | main ()
 | {
-| 
+|
 |        mkdir("")
-| 
+|
 |   ;
 |   return 0;
 | }
@@ -2043,11 +2043,11 @@ configure: exit 0
 This file was extended by config.status, which was
 generated by GNU Autoconf 2.67.  Invocation command line was
 
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  $ ./config.status 
+  CONFIG_FILES    =
+  CONFIG_HEADERS  =
+  CONFIG_LINKS    =
+  CONFIG_COMMANDS =
+  $ ./config.status
 
 on pengyu-ThinkPad-T400
 
@@ -2072,10 +2072,10 @@ config.status:1446: executing run_tests commands
 This file was extended by config.status, which was
 generated by GNU Autoconf 2.67.  Invocation command line was
 
-  CONFIG_FILES    = 
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
+  CONFIG_FILES    =
+  CONFIG_HEADERS  =
+  CONFIG_LINKS    =
+  CONFIG_COMMANDS =
   $ ./config.status config.h
 
 on pengyu-ThinkPad-T400

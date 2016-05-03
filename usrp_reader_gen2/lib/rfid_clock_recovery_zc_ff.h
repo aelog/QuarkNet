@@ -14,7 +14,7 @@ rfid_clock_recovery_zc_ff_sptr
 rfid_make_clock_recovery_zc_ff(int samples_per_pulse, int interp_factor);
 
 class rfid_clock_recovery_zc_ff : public gr_block
-{  
+{
 
   friend rfid_clock_recovery_zc_ff_sptr
   rfid_make_clock_recovery_zc_ff(int samples_per_pulse, int interp_factor);
@@ -28,7 +28,7 @@ class rfid_clock_recovery_zc_ff : public gr_block
 protected:
 
   rfid_clock_recovery_zc_ff(int samples_per_pulse, int interp_factor);
-  void forecast (int noutput_items, gr_vector_int &ninput_items_required); 
+  void forecast (int noutput_items, gr_vector_int &ninput_items_required);
 
 private:
   float d_nominal_sp_pulse;
@@ -38,7 +38,7 @@ private:
   float d_max_drift;
   float d_alpha;
   int d_interp_factor; //Kill this.
- 
+
 
 };
 

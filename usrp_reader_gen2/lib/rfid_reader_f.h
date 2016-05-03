@@ -15,11 +15,11 @@ rfid_reader_f_sptr
 rfid_make_reader_f (int sample_rate);
 
 class rfid_reader_f : public gr_block {
-  friend rfid_reader_f_sptr 
+  friend rfid_reader_f_sptr
   rfid_make_reader_f (int sample_rate);
-  
 
-  
+
+
   int d_sample_rate;
 
   float * d_one;
@@ -35,16 +35,16 @@ class rfid_reader_f : public gr_block {
   float * cw_buffer;
   float * zero_buffer;
   float d_us_per_xmit;
- 
+
   gr_message_sptr tx_msg;
   gr_message_sptr d_ctrl_msg;
   gr_msg_queue_sptr out_q;
   gr_msg_queue_sptr d_ctrl_q;
   int d_msg_count;
-  
+
   float collision_threshold;
-  float Q_fp; 
-  int d_num_empty_rounds; 
+  float Q_fp;
+  int d_num_empty_rounds;
   int d_tags_read_in_cycle, d_slots_occupied;
 
   char last_handle[16];
@@ -59,23 +59,23 @@ class rfid_reader_f : public gr_block {
   char d_session[3];
   char d_target[2];
   char d_Q[5];
-  char d_CRC[6]; 
+  char d_CRC[6];
 
 
   gr_msg_queue_sptr log_q;
   enum {LOG_START_CYCLE, LOG_QUERY, LOG_ACK, LOG_QREP, LOG_NAK, LOG_REQ_RN, LOG_READ, LOG_RN16, LOG_EPC, LOG_HANDLE, LOG_DATA, LOG_EMPTY, LOG_COLLISION, LOG_OKAY, LOG_ERROR};
 
   public:
-  
-  int general_work(int noutput_items, 
+
+  int general_work(int noutput_items,
 		   gr_vector_int &ninput_items,
 		   gr_vector_const_void_star &input_items,
 		   gr_vector_void_star &output_items);
-  
+
   gr_msg_queue_sptr    ctrl_q() const {return d_ctrl_q;}
   gr_msg_queue_sptr get_log() const {return log_q;}
 
-  private: 
+  private:
   rfid_reader_f (int sample_rate);
   void gen_query_cmd();
   void gen_qrep_cmd();
@@ -97,10 +97,10 @@ class rfid_reader_f : public gr_block {
   int check_crc(char * bits, int num_bits);
   void set_num_samples_to_ungate();
 
-  void forecast (int noutput_items, gr_vector_int &ninput_items_required); 
+  void forecast (int noutput_items, gr_vector_int &ninput_items_required);
   void log_msg(int message, char * text, int error);
-  
-  
+
+
 };
 
 

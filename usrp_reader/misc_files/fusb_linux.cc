@@ -1,19 +1,19 @@
 /* -*- c++ -*- */
 /*
  * Copyright 2003 Free Software Foundation, Inc.
- * 
+ *
  * This file is part of GNU Radio
- * 
+ *
  * GNU Radio is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3, or (at your option)
  * any later version.
- * 
+ *
  * GNU Radio is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with GNU Radio; see the file COPYING.  If not, write to
  * the Free Software Foundation, Inc., 51 Franklin Street,
@@ -93,7 +93,7 @@ alloc_urb (fusb_ephandle_linux *self, int buffer_length, int endpoint,
   urb->buffer_length = buffer_length;
 
   // We allocate dedicated memory only for input buffers.
-  // For output buffers we reuse the same buffer (the kernel 
+  // For output buffers we reuse the same buffer (the kernel
   // copies the data at submital time)
 
   if (input_p)
@@ -143,7 +143,7 @@ fusb_devhandle_linux::fusb_devhandle_linux (usb_dev_handle *udh)
 fusb_devhandle_linux::~fusb_devhandle_linux ()
 {
   // if there are any pending requests, cancel them and free the urbs.
-  
+
   std::list<usbdevfs_urb*>::reverse_iterator it;
 
   for (it = d_pending_rqsts.rbegin (); it != d_pending_rqsts.rend (); it++){
@@ -174,7 +174,7 @@ fusb_devhandle_linux::_cancel_pending_rqsts (fusb_ephandle_linux *eph)
   }
 }
 
-void 
+void
 fusb_devhandle_linux::pending_add (usbdevfs_urb *urb)
 {
   d_pending_rqsts.push_back (urb);
@@ -219,7 +219,7 @@ fusb_devhandle_linux::_submit_urb (usbdevfs_urb *urb)
     perror ("fusb::_submit_urb");
     return false;
   }
-  
+
   pending_add (urb);
   return true;
 }
@@ -265,7 +265,7 @@ fusb_devhandle_linux::_reap (bool ok_to_block_p)
   usbdevfs_urb	*urb = 0;
 
   int	fd = fd_from_usb_dev_handle (d_udh);
-  
+
   // try to reap as many as possible without blocking...
 
   while ((ret = ioctl (fd, USBDEVFS_REAPURBNDELAY, &urb)) == 0){
@@ -283,7 +283,7 @@ fusb_devhandle_linux::_reap (bool ok_to_block_p)
 
   if (!ok_to_block_p)
     return false;
-  
+
   ret = ioctl (fd, USBDEVFS_REAPURB, &urb);
   if (ret < 0){
     perror ("fusb::_reap");
@@ -311,7 +311,7 @@ fusb_ephandle_linux::fusb_ephandle_linux (fusb_devhandle_linux *devhandle,
 					  bool input_p,
 					  int block_size, int nblocks)
   : fusb_ephandle (endpoint, input_p, block_size, nblocks),
-    d_devhandle (devhandle), 
+    d_devhandle (devhandle),
     d_write_work_in_progress (0), d_write_buffer (0),
     d_read_work_in_progress (0), d_read_buffer (0), d_read_buffer_end (0)
 {
@@ -429,17 +429,17 @@ fusb_ephandle_linux::stop ()
 }
 
 // ----------------------------------------------------------------
-//			routines for writing 
+//			routines for writing
 // ----------------------------------------------------------------
 
 #if (MINIMIZE_TX_BUFFERING)
 
-int 
+int
 fusb_ephandle_linux::write(const void *buffer, int nbytes)
 {
   if (!d_started)
     return -1;
-  
+
   if (d_input_p)
     return -1;
 
@@ -472,12 +472,12 @@ fusb_ephandle_linux::write(const void *buffer, int nbytes)
 
 #else
 
-int 
+int
 fusb_ephandle_linux::write (const void *buffer, int nbytes)
 {
   if (!d_started)
     return -1;
-  
+
   if (d_input_p)
     return -1;
 
@@ -543,7 +543,7 @@ fusb_ephandle_linux::reap_complete_writes ()
   // checking for errors.
 
   usbdevfs_urb *urb;
-  
+
   while ((urb = completed_list_get ()) != 0){
 
     // Check for any errors or short writes that were reported in the urb.
@@ -578,7 +578,7 @@ fusb_ephandle_linux::read (void *buffer, int nbytes)
 {
   if (!d_started)
     return -1;
-  
+
   if (!d_input_p)
     return -1;
 

@@ -13,17 +13,17 @@ class rfid_tag_decoder_f;
 typedef boost::shared_ptr<rfid_tag_decoder_f> rfid_tag_decoder_f_sptr;
 
 
-rfid_tag_decoder_f_sptr 
+rfid_tag_decoder_f_sptr
 rfid_make_tag_decoder_f ();
 
-class rfid_tag_decoder_f : public gr_block 
+class rfid_tag_decoder_f : public gr_block
 {
- 
+
  private:
   friend rfid_tag_decoder_f_sptr
   rfid_make_tag_decoder_f ();
- 
-  
+
+
 
   //std::vector<float>	d_preamble_cor_vec;
   int                   d_preamble_offset;
@@ -34,16 +34,16 @@ class rfid_tag_decoder_f : public gr_block
   int                   d_preamble_miss_threshold;
   float                 d_last_score;
   int                   d_samples_processed;
- 
+
   gr_msg_queue_sptr	d_ctrl_out;  //Pipe control messages to reader block.
 
   rfid_tag_decoder_f();
-  void forecast (int noutput_items, gr_vector_int &ninput_items_required); 
- 
+  void forecast (int noutput_items, gr_vector_int &ninput_items_required);
+
  public:
   ~rfid_tag_decoder_f();
-  
-  int general_work(int noutput_items, 
+
+  int general_work(int noutput_items,
 		   gr_vector_int &ninput_items,
 		   gr_vector_const_void_star &input_items,
 		   gr_vector_void_star &output_items);

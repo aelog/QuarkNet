@@ -1,17 +1,17 @@
 dnl Copyright 2009 Free Software Foundation, Inc.
-dnl 
+dnl
 dnl This file is part of GNU Radio
-dnl 
+dnl
 dnl GNU Radio is free software; you can redistribute it and/or modify
 dnl it under the terms of the GNU General Public License as published by
 dnl the Free Software Foundation; either version 3, or (at your option)
 dnl any later version.
-dnl 
+dnl
 dnl GNU Radio is distributed in the hope that it will be useful,
 dnl but WITHOUT ANY WARRANTY; without even the implied warranty of
 dnl MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 dnl GNU General Public License for more details.
-dnl 
+dnl
 dnl You should have received a copy of the GNU General Public License
 dnl along with GNU Radio; see the file COPYING.  If not, write to
 dnl the Free Software Foundation, Inc., 51 Franklin Street,
@@ -22,7 +22,7 @@ AC_DEFUN([GR_VERSION],[
   dnl Does not force recompile on rev change
   dnl
   dnl Source the variables describing the release version
-  dnl 
+  dnl
   dnl MAJOR_VERSION          Major release generation (2.x, 3.x, etc.)
   dnl API_COMPAT             API compatibility version (3.2.x, 3.3.x, etc.)
   dnl MINOR_VERSION          Minor release version
@@ -32,7 +32,7 @@ AC_DEFUN([GR_VERSION],[
   dnl that this branch is between versions.
   . $srcdir/version.sh
   RELEASE=$MAJOR_VERSION.$API_COMPAT
-  
+
   dnl Get git version if available
   GR_GIT
 
@@ -58,7 +58,7 @@ AC_DEFUN([GR_VERSION],[
       dnl a maintenance release
       if test "$MINOR_VERSION" != "0" -o "$MAINT_VERSION" != "0"; then
         dnl 3.3.1
-        RELEASE=$RELEASE.$MINOR_VERSION                          
+        RELEASE=$RELEASE.$MINOR_VERSION
         if test "$MAINT_VERSION" != "0"; then
           dnl 3.3.0.1, 3.3.1.1
           RELEASE=$RELEASE.$MAINT_VERSION

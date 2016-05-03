@@ -157,7 +157,7 @@ class rfid_clock_recovery_zc_ff_sptr(object):
     """Proxy of C++ boost::shared_ptr<(rfid_clock_recovery_zc_ff)> class"""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> rfid_clock_recovery_zc_ff_sptr
         __init__(self,  p) -> rfid_clock_recovery_zc_ff_sptr
@@ -244,7 +244,7 @@ class rfid_reader_decoder_sptr(object):
     """Proxy of C++ boost::shared_ptr<(rfid_reader_decoder)> class"""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> rfid_reader_decoder_sptr
         __init__(self,  p) -> rfid_reader_decoder_sptr
@@ -335,7 +335,7 @@ class rfid_center_ff_sptr(object):
     """Proxy of C++ boost::shared_ptr<(rfid_center_ff)> class"""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> rfid_center_ff_sptr
         __init__(self,  p) -> rfid_center_ff_sptr
@@ -422,7 +422,7 @@ class rfid_tag_decoder_f_sptr(object):
     """Proxy of C++ boost::shared_ptr<(rfid_tag_decoder_f)> class"""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> rfid_tag_decoder_f_sptr
         __init__(self,  p) -> rfid_tag_decoder_f_sptr
@@ -513,7 +513,7 @@ class rfid_command_gate_cc_sptr(object):
     """Proxy of C++ boost::shared_ptr<(rfid_command_gate_cc)> class"""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> rfid_command_gate_cc_sptr
         __init__(self,  p) -> rfid_command_gate_cc_sptr
@@ -608,7 +608,7 @@ class rfid_reader_f_sptr(object):
     """Proxy of C++ boost::shared_ptr<(rfid_reader_f)> class"""
     thisown = _swig_property(lambda x: x.this.own(), lambda x, v: x.this.own(v), doc='The membership flag')
     __repr__ = _swig_repr
-    def __init__(self, *args): 
+    def __init__(self, *args):
         """
         __init__(self) -> rfid_reader_f_sptr
         __init__(self,  p) -> rfid_reader_f_sptr

@@ -13,21 +13,21 @@ class rfid_reader_decoder;
 typedef boost::shared_ptr<rfid_reader_decoder> rfid_reader_decoder_sptr;
 
 
-rfid_reader_decoder_sptr 
+rfid_reader_decoder_sptr
 rfid_make_reader_decoder (float us_per_sample, float tari);
 
-class rfid_reader_decoder : public gr_sync_block 
+class rfid_reader_decoder : public gr_sync_block
 {
- 
+
  private:
   friend rfid_reader_decoder_sptr
   rfid_make_reader_decoder (float us_per_sample, float tari);
- 
+
   enum {BEGIN, DELIM_FOUND, TARI_FOUND, RTCAL_FOUND, DATA};
   enum {READER_COMMAND, POWER_DOWN, START};
   float static const AVG_WIN = 750; // Window to average amplitude over, in us
   float static const THRESH_FRACTION = 0.9; //Percent of avg amplitude to detect edges
-  int static const MAX_BITS = 256;  
+  int static const MAX_BITS = 256;
   double static const MIN_AMP_THRESH = 0;     //Eventually, expose as user parameter
 
   double d_us_per_sample;
@@ -46,22 +46,22 @@ class rfid_reader_decoder : public gr_sync_block
 
   char d_bits[512];
   int d_len_bits;
-  
 
- 
 
- 
+
+
+
   rfid_reader_decoder(float us_per_sample, float tari);
   void advance_decoder(int next_state);
   bool is_negative_edge(float sample);
   bool is_positive_edge(float sample);
   void log_event(int event, int lag_samples);
- 
+
  public:
   ~rfid_reader_decoder();
   gr_msg_queue_sptr log_q;
   gr_msg_queue_sptr get_log() const {return log_q;}
-  int work(int noutput_items, 
+  int work(int noutput_items,
 	   gr_vector_const_void_star &input_items,
 	   gr_vector_void_star &output_items);
 

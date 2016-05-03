@@ -33,7 +33,7 @@ AC_DEFUN([GR_OMNITHREAD],
         #include <winbase.h>
         int main() { InitializeCriticalSection(NULL); return 0; }
       ],
-      [ 
+      [
         ot_nt="yes"
         DEFINES="$DEFINES -DOMNITHREAD_NT=1"
       ],

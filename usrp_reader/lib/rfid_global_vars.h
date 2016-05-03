@@ -5,16 +5,16 @@
 #include <queue>
 #include <boost/thread.hpp>
 
-//This configures the reader to start a cycle every XXX ms. 
+//This configures the reader to start a cycle every XXX ms.
 // If false, the reader will start a new cycle immediately after one ends
-const bool TIMED_CYCLE_MODE = true;  
+const bool TIMED_CYCLE_MODE = true;
 const int READER_CYCLE_TIMER_RATE = 10000;
 ////////
 
 //These specify how many cycles, and how many rounds in each cycle, before the reader stops
-// Note that if CHANGE_Q is true, a cycle ends when all tags are read. 
+// Note that if CHANGE_Q is true, a cycle ends when all tags are read.
 const int READER_NUM_CYCLES = 100000;  //Number of Cycles, i.e. Power downs
-const int READER_NUM_ROUNDS = 1;    //How many Queries per cycle. Only used if !CHANGE_Q. 
+const int READER_NUM_ROUNDS = 1;    //How many Queries per cycle. Only used if !CHANGE_Q.
 ////////
 
 //These specify how Q is changed
@@ -22,20 +22,20 @@ const int READER_NUM_ROUNDS = 1;    //How many Queries per cycle. Only used if !
 // Optimal_Q chooses the optimal frame size based on tags read - NUM_TAGS
 // !Optimal_Q, then use the EPC Q algorithm
 const bool CHANGE_Q = false;  //If false, use a fixed number of rounds. Else, round ends when all tags are read
-const bool OPTIMAL_Q = false; 
+const bool OPTIMAL_Q = false;
 const int NUM_TAGS = 2;       //The number of tags in the population
 /////////
 
 const bool LOGGING = true;  //Generally, you want to log things.
-const bool READ_DATA = false; //READ data after singulation. Currently, not fully implemented. 
+const bool READ_DATA = false; //READ data after singulation. Currently, not fully implemented.
 
 const float COLLISION_THRESHOLD = 2;   //SNR to detect collisions, NOT in dB
 const float INIT_QFP = 0;              //Initial Q value
 
 //USRP1 automatically sends the CW, at least with the current GNURadio.
-// USRP2, or if GNUradio changes, this will send out the CW manually. 
+// USRP2, or if GNUradio changes, this will send out the CW manually.
 // If a tag is near the edge of the spec, the timing of the manual CW may be off.
-const bool TRANSMIT_CW = true;  
+const bool TRANSMIT_CW = true;
 
 enum {QUERY, ACK, QREP, NAK, REQ_RN, READ, IDLE};  //Gen 2 state machine
 enum {GATE_RESET, GATE_OPEN, GATE_CLOSED, GATE_DISABLED, GATE_FINISHED};  //State of command_gate
@@ -44,7 +44,7 @@ enum {DECODER_SEEK_PREAMBLE, DECODER_PREAMBLE_FOUND, DECODER_FINISHED, DECODER_S
 
 enum {SLEEP_CYCLE_PROBLE, INVENTORY};
 
-//This is for passing info, triggering changes, etc between blocks. 
+//This is for passing info, triggering changes, etc between blocks.
 struct reader_state{
   int last_cmd_sent;
 
@@ -62,7 +62,7 @@ struct reader_state{
 
   bool nak_sent;
 
-  int num_cycles; 
+  int num_cycles;
   int cur_cycle;
 
   int num_rounds;
@@ -78,9 +78,9 @@ struct reader_state{
 
   char * tag_bit_vector;
 
-  double min_pwr, max_pwr, std_dev_noise, std_dev_signal, avg_pwr; 
+  double min_pwr, max_pwr, std_dev_noise, std_dev_signal, avg_pwr;
 
-  bool center_edge_found;  
+  bool center_edge_found;
   bool center_tracking;
 
   int num_timer_cycles;
@@ -119,7 +119,7 @@ const static char * opt_q_strings[] = {"0000","0001","0001","0010","0010","0010"
 //For 40 kHz uplink
 //const int trcal_width = 200;  //for 40 kHz
 //const int rtcal_width = 72;  //28 or 40
-//const int NUM_SAMPLES_PER_PULSE = 10;     
+//const int NUM_SAMPLES_PER_PULSE = 10;
 
 
 //For WISP. Remember to use M4 only
@@ -196,17 +196,17 @@ const int m2_one_len = 8;
 const int m4_one_len = 16;
 //const int m4_one_len = 8;
 const int m8_one_len = 32;
-const int m2_preamble_len = 48; 
-const int m4_preamble_len = 96; 
-//const int m4_preamble_len = 32; 
+const int m2_preamble_len = 48;
+const int m4_preamble_len = 96;
+//const int m4_preamble_len = 32;
 
-const int m8_preamble_len = 192; 
+const int m8_preamble_len = 192;
 //const int max_tag_response = 512;
 const int max_tag_response = 10000;
-//const int no_RN16_bits = 17 ;  
+//const int no_RN16_bits = 17 ;
 const int no_RN16_bits = 121 ;
 const int no_EPC_bits = 129 ;
 const int no_DATA_bits = 48;
-const int usrp_pkt_size = 128;  //In samples. 512 / size of complex. 
+const int usrp_pkt_size = 128;  //In samples. 512 / size of complex.
 
 #endif

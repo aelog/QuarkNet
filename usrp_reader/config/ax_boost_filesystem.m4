@@ -6,7 +6,7 @@
 # DESCRIPTION
 #
 #   Test for Filesystem library from the Boost C++ libraries. The macro
-#   requires a preceding call to AX_BOOST_BASE. 
+#   requires a preceding call to AX_BOOST_BASE.
 #
 #   This macro calls:
 #

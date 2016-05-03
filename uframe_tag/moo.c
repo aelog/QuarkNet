@@ -116,7 +116,7 @@ id, id, id, id, id, id, id, id, id, id, id, id, id, id, id, id, id, id, id, id};
 int main(void)
 {
   WDTCTL = WDTPW + WDTHOLD;
-  
+
   P1SEL = 0;
   P2SEL = 0;
   P8SEL = 0xC0;
@@ -126,15 +126,15 @@ int main(void)
   P2IFG = 0;
 
   DRIVE_ALL_PINS
-    
+
   if(!is_power_good())
     sleep();
-  
+
   RECEIVE_CLOCK;
   TACTL = 0;
   asm("MOV #0000h, R9");
-  
-  setup_to_receive();  
+
+  setup_to_receive();
   while(1){
     if (TAR > 0x256 || delimiterNotFound)
     {
@@ -143,15 +143,15 @@ int main(void)
       }
       setup_to_receive();
     }
-    
+
     if ( (bits == 14)  && ( ( cmd[0] & 0xFF ) == 0x10 ) )
     {
       TACCTL1 &= ~CCIE;
       TAR = 0;
-      
+
       //voltage_down();
       tx_len = 50;
-      
+
       for(i=0;i<10;i++){
         asm("NOP");
       }
@@ -166,30 +166,30 @@ int main(void)
       setup_to_receive();
     }
   }
-  
+
   while(1)
   {
     P1OUT |= DEBUG_1_7;
     P1OUT &= ~DEBUG_1_7;
-  
+
     sleep_time = 10;
     sleep_time_list[0] = sleep_time;
     throughput_list[0] = cal_throughput(sleep_time);
-    
+
     sleep_time = sleep_time<<1;
     sleep_time_list[1] = sleep_time;
     throughput_list[1] = cal_throughput(sleep_time);
-    
+
     sleep_time = sleep_time<<1;
     sleep_time_list[2] = sleep_time;
     throughput_list[2] = cal_throughput(sleep_time);
-        
+
     while(1){
       if((throughput_list[2]<=throughput_list[1]) && (throughput_list[1]<=throughput_list[0])){
-        
+
         P2OUT |= DEBUG_2_1;
         P2OUT &= ~DEBUG_2_1;
-        
+
         sleep_time_list[0] = sleep_time_list[1];
         sleep_time_list[1] = sleep_time_list[2];
         throughput_list[0] = throughput_list[1];
@@ -198,7 +198,7 @@ int main(void)
         if(sleep_time>16000){
           break;
         }
-        
+
         sleep_time = sleep_time<<1;
         sleep_time_list[2] = sleep_time;
         throughput_list[2] = cal_throughput(sleep_time);
@@ -206,20 +206,20 @@ int main(void)
       else if((throughput_list[2]>=throughput_list[1]) && (throughput_list[1]<=throughput_list[0])){
         sleep_time_list[4] = sleep_time_list[2];
         throughput_list[4] = throughput_list[2];
-        
+
         while(1){
           sleep_time = (sleep_time_list[4]+sleep_time_list[0])>>1;
           sleep_time_list[2] = sleep_time;
           throughput_list[2] = cal_throughput(sleep_time);
-          
+
           sleep_time = (sleep_time_list[2]+sleep_time_list[0])>>1;
           sleep_time_list[1] = sleep_time;
           throughput_list[1] = cal_throughput(sleep_time);
-          
+
           sleep_time = (sleep_time_list[2]+sleep_time_list[4])>>1;
           sleep_time_list[3] = sleep_time;
           throughput_list[3] = cal_throughput(sleep_time);
-          
+
           if(throughput_list[3]<=throughput_list[1]){
             sleep_time_list[0] = sleep_time_list[1];
             throughput_list[0] = throughput_list[1];
@@ -228,18 +228,18 @@ int main(void)
             sleep_time_list[4] = sleep_time_list[3];
             throughput_list[4] = throughput_list[3];
           }
-          
+
           if(sleep_time_list[4]-sleep_time_list[0]<=30){
             break;
           }
         }
-        
+
         sleep_time = sleep_time_list[4];
-        
+
         break;
       }
       else if((throughput_list[2]>=throughput_list[1]) && (throughput_list[1]>=throughput_list[0])){
-        
+
         sleep_time_list[2] = sleep_time_list[1];
         sleep_time_list[1] = sleep_time_list[0];
         throughput_list[2] = throughput_list[1];
@@ -248,27 +248,27 @@ int main(void)
         if(sleep_time==0){
           break;
         }
-        
+
         sleep_time = sleep_time>>1;
         sleep_time_list[0] = sleep_time;
         throughput_list[0] = cal_throughput(sleep_time);
       }
     }
-  
+
     P1OUT |= DEBUG_1_7;
-    P1OUT &= ~DEBUG_1_7;    
-    
+    P1OUT &= ~DEBUG_1_7;
+
     //sleep_time = 300;
 
     for(i=0;i<1000;i++)
-    {     
+    {
       if(!is_power_good()){
         sleep();
       }
       if(sleep_time>=1){
         tx_sleep(sleep_time);
       }
-  
+
       setup_to_receive();
 
       while(1){
@@ -279,24 +279,24 @@ int main(void)
           }
           setup_to_receive();
         }
-        
+
         if ( (bits == 14)  && ( ( cmd[0] & 0xFF ) == id) )
         {
           P2OUT |= DEBUG_2_2;
           P2OUT &= ~DEBUG_2_2;
-          
+
           TACCTL1 &= ~CCIE;
           TAR = 0;
-          
+
           voltage_down();
           tx_len = MAX_TX_LEN;
-          
+
           for(i=0;i<10;i++){
             asm("NOP");
           }
-    
+
           sendToReader(&datalog[0], tx_len);
-          setup_to_receive();      
+          setup_to_receive();
           break;
         }
       }
@@ -312,38 +312,38 @@ unsigned int cal_throughput(unsigned int sleep_time){
   unsigned int tx_len = 0;
   unsigned int sleep_time_current = sleep_time;
   unsigned int throughput = 0;
-  
+
   for(i=0; i<1; i++){
-    
+
     set_timer();
-    
+
     if(!is_power_good()){
       sleep();
     }
-    
+
     total_sleep_time = total_sleep_time + TBR;
     if(sleep_time>=1){
       tx_sleep(sleep_time_current);
     }
-    
+
     total_sleep_time = total_sleep_time + sleep_time;
     set_timer();
-    
+
     TACCTL1 &= ~CCIE;
-    TAR = 0;    
+    TAR = 0;
     tx_len = MAX_TX_LEN;
-    
+
     counter = 0;
     voltage_down();
     sendToReader(&datalog[0], tx_len);
     tx_len=tx_len-counter;
-    
+
     total_sleep_time = total_sleep_time + TBR;
     total_tx_len = total_tx_len + tx_len;
   }
-  
+
   throughput = total_sleep_time/total_tx_len;
-  
+
   return throughput;
 }
 
@@ -392,7 +392,7 @@ static inline void setup_to_receive()
 }
 
 inline void sleep()
-{    
+{
   P1OUT &= ~RX_EN_PIN;
   // enable port interrupt for voltage supervisor
   P2IES = 0;
@@ -423,13 +423,13 @@ inline void voltage_down()
   _BIC_SR(GIE);
   P2IE |= VOLTAGE_SV_PIN;
   _BIS_SR(GIE);
-  
+
   /*P2IES = 1;
   P2IFG = 0;
   P2IE |= VOLTAGE_SV_PIN;
   TACTL = 0;
   _BIS_SR(GIE);*/
-  
+
   return;
 }
 
@@ -439,16 +439,16 @@ inline void set_timer(){
   TBCTL = TBSSEL_1 + MC_2;
 }
 
-inline void stop_timer(){    
+inline void stop_timer(){
   TBCTL = 0;
   TBCCTL0 = 0;
   TBCCTL1 = 0;
 }
 
 inline void tx_sleep(unsigned int gap)
-{  
+{
   P1OUT &= ~RX_EN_PIN;
-  
+
   TBCTL |= TBCLR;
   TBR = 0;
   TBCCR0 = gap;
@@ -470,8 +470,8 @@ unsigned short is_power_good()
 
 #pragma vector=PORT2_VECTOR
 __interrupt void Port2_ISR(void)   // (5-6 cycles) to enter interrupt
-{  
-  if(P2IES==1){  
+{
+  if(P2IES==1){
     TACCTL0 = 0;  // DON'T NEED THIS NOP
     asm("MOV R5, counter\n");
     asm("MOV #0001, R5\n");
@@ -694,7 +694,7 @@ __interrupt void TimerA1_ISR(void)   // (6 cycles) to enter interrupt
 *   P1.1 - communication output
 *******************************************************************************/
 void sendToReader(volatile unsigned char *data, unsigned int numOfBits)
-{  
+{
   SEND_CLOCK;
 
   TACTL &= ~TAIE;
@@ -748,7 +748,7 @@ void sendToReader(volatile unsigned char *data, unsigned int numOfBits)
                               // reduce the 1 cycle from below code
     asm("MOV R13, R6");       // (1 cycle)
     asm("SWPB R7");           // (1 cycle)    Swap Hi-byte and Low byte
-    
+
     TACTL |= TACLR;   //reset timer A
     TACTL = TASSEL1 + MC0;     // up mode
 

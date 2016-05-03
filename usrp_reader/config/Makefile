@@ -17,46 +17,46 @@
 
 #
 # Copyright 2001 Free Software Foundation, Inc.
-# 
+#
 # This file is part of GNU Radio
-# 
+#
 # GNU Radio is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3, or (at your option)
 # any later version.
-# 
+#
 # GNU Radio is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with GNU Radio; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-# 
+#
 
 # -*- Makefile -*-
 #
 # Copyright 2004,2006,2009,2010 Free Software Foundation, Inc.
-# 
+#
 # This file is part of GNU Radio
-# 
+#
 # GNU Radio is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation; either version 3, or (at your option)
 # any later version.
-# 
+#
 # GNU Radio is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with GNU Radio; see the file COPYING.  If not, write to
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
-# 
+#
 
 pkgdatadir = $(datadir)/gr-rfid
 pkgincludedir = $(includedir)/gr-rfid
@@ -125,12 +125,12 @@ CCASFLAGS = -g -O2
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O2
 CPP = gcc -E
-CPPFLAGS = 
-CPPUNIT_CFLAGS =  
-CPPUNIT_CONFIG = 
-CPPUNIT_CPPFLAGS = 
+CPPFLAGS =
+CPPUNIT_CFLAGS =
+CPPUNIT_CONFIG =
+CPPUNIT_CPPFLAGS =
 CPPUNIT_INCLUDEDIR = /usr/include
-CPPUNIT_LIBS = -lcppunit -ldl  
+CPPUNIT_LIBS = -lcppunit -ldl
 CXX = g++
 CXXCPP = g++ -E
 CXXDEPMODE = depmode=gcc3
@@ -140,19 +140,19 @@ DEFS = -DHAVE_CONFIG_H
 DEPDIR = .deps
 DLLTOOL = dlltool
 DOCVER = 3.3git
-DSYMUTIL = 
-DUMPBIN = 
-ECHO_C = 
+DSYMUTIL =
+DUMPBIN =
+ECHO_C =
 ECHO_N = -n
-ECHO_T = 
+ECHO_T =
 EGREP = /bin/grep -E
-EXEEXT = 
+EXEEXT =
 FGREP = /bin/grep -F
 GIT = /usr/bin/git
-GNURADIO_CORE_CFLAGS = -pthread -I/usr/local/include/gnuradio -I/usr/local/include  
+GNURADIO_CORE_CFLAGS = -pthread -I/usr/local/include/gnuradio -I/usr/local/include
 GNURADIO_CORE_CPPFLAGS =  -I/usr/local/include/gnuradio -I/usr/local/include
 GNURADIO_CORE_INCLUDEDIR = /usr/local/include/gnuradio
-GNURADIO_CORE_LIBS = -L/usr/local/lib -lboost_thread-mt -lboost_date_time-mt -lgnuradio-core -lgruel -lfftw3f -lgsl -lgslcblas -lm  
+GNURADIO_CORE_LIBS = -L/usr/local/lib -lboost_thread-mt -lboost_date_time-mt -lgnuradio-core -lgruel -lfftw3f -lgsl -lgslcblas -lm
 GREP = /bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
@@ -160,35 +160,35 @@ INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LD = /usr/bin/ld -m elf_x86_64
-LDFLAGS = 
-LIBOBJS = 
-LIBS =  -L/usr/local/lib -lboost_thread-mt -lboost_date_time-mt -lgnuradio-core -lgruel -lfftw3f -lgsl -lgslcblas -lm  
+LDFLAGS =
+LIBOBJS =
+LIBS =  -L/usr/local/lib -lboost_thread-mt -lboost_date_time-mt -lgnuradio-core -lgruel -lfftw3f -lgsl -lgslcblas -lm
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
-LIPO = 
+LIPO =
 LN_S = ln -s
-LTLIBOBJS = 
+LTLIBOBJS =
 MAKEINFO = ${SHELL} /home/pengyu/QuarkNet/usrp_reader/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 NM = /usr/bin/nm -B
-NMEDIT = 
-NO_UNDEFINED = 
+NMEDIT =
+NO_UNDEFINED =
 OBJDUMP = objdump
 OBJEXT = o
-OTOOL = 
-OTOOL64 = 
+OTOOL =
+OTOOL64 =
 PACKAGE = gr-rfid
-PACKAGE_BUGREPORT = 
-PACKAGE_NAME = 
-PACKAGE_STRING = 
-PACKAGE_TARNAME = 
-PACKAGE_URL = 
-PACKAGE_VERSION = 
+PACKAGE_BUGREPORT =
+PACKAGE_NAME =
+PACKAGE_STRING =
+PACKAGE_TARNAME =
+PACKAGE_URL =
+PACKAGE_VERSION =
 PATH_SEPARATOR = :
 PKG_CONFIG = /usr/bin/pkg-config
 PYTHON = /usr/bin/python
 PYTHON_CPPFLAGS = -I/usr/include/python2.7
 PYTHON_EXEC_PREFIX = ${exec_prefix}
-PYTHON_LDFLAGS = 
+PYTHON_LDFLAGS =
 PYTHON_PLATFORM = linux2
 PYTHON_PREFIX = ${prefix}
 PYTHON_VERSION = 2.7
@@ -196,7 +196,7 @@ RANLIB = ranlib
 RELEASE = 3.3git-dbecd6da
 RM_PROG = /bin/rm
 SED = /bin/sed
-SET_MAKE = 
+SET_MAKE =
 SHELL = /bin/bash
 STRIP = strip
 SWIG = /usr/bin/swig -c++
@@ -204,23 +204,23 @@ SWIG_PYTHON_CPPFLAGS = -I/usr/include/python2.7
 SWIG_PYTHON_LIB = -lswigpy
 SWIG_PYTHON_OPT = -python
 VERSION = 3.3git-dbecd6da
-XMLTO = 
+XMLTO =
 abs_builddir = /home/pengyu/QuarkNet/usrp_reader/config
 abs_srcdir = /home/pengyu/QuarkNet/usrp_reader/config
 abs_top_builddir = /home/pengyu/QuarkNet/usrp_reader
 abs_top_srcdir = /home/pengyu/QuarkNet/usrp_reader
 ac_ct_CC = gcc
 ac_ct_CXX = g++
-ac_ct_DUMPBIN = 
+ac_ct_DUMPBIN =
 am__include = include
 am__leading_dot = .
-am__quote = 
+am__quote =
 am__tar = tar --format=ustar -chf - "$$tardir"
 am__untar = tar -xf -
 autoconf_default_CXXFLAGS = -g -O2
 bindir = ${exec_prefix}/bin
 build = x86_64-unknown-linux-gnu
-build_alias = 
+build_alias =
 build_cpu = x86_64
 build_os = linux-gnu
 build_vendor = unknown
@@ -230,9 +230,9 @@ datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-gr_libdir_suffix = 
+gr_libdir_suffix =
 host = x86_64-unknown-linux-gnu
-host_alias = 
+host_alias =
 host_cpu = x86_64
 host_os = linux-gnu
 host_vendor = unknown
@@ -264,7 +264,7 @@ srcdir = .
 swig_CXXFLAGS = -g -O1 -Wno-strict-aliasing -Wno-parentheses
 sysconfdir = ${prefix}/etc
 target = x86_64-unknown-linux-gnu
-target_alias = 
+target_alias =
 target_cpu = x86_64
 target_os = linux-gnu
 target_vendor = unknown
@@ -298,7 +298,7 @@ STD_DEFINES_AND_INCLUDES = \
 # includes
 modincludedir = $(includedir)/$(modname)
 
-# swig includes 
+# swig includes
 swigincludedir = $(modincludedir)/swig
 
 # Install this stuff in the appropriate subdirectory
@@ -316,7 +316,7 @@ grc_blocksdir = $(prefix)/share/gnuradio/grc/blocks
 RM = $(RM_PROG) -f
 
 # Other common defines; use "+=" to add to these
-STAMPS = 
+STAMPS =
 MOSTLYCLEANFILES = $(BUILT_SOURCES) $(STAMPS) *.pyc *.pyo *~ *.tmp *.loT
 
 # Install m4 macros in this directory
@@ -376,8 +376,8 @@ m4macros = \
 
 
 # Don't install m4 macros anymore
-# m4data_DATA = $(m4macros) 
-EXTRA_DIST = $(m4macros) 
+# m4data_DATA = $(m4macros)
+EXTRA_DIST = $(m4macros)
 all: all-am
 
 .SUFFIXES:
