@@ -1343,7 +1343,7 @@ rfid_reader_f::log_msg(int message, char * text, int error)
                       time.tv_usec / 1000);
       }
       else {
-        len = sprintf(msg
+        len = sprintf(msg,
                       "Time: %d.%03ld\n",
                       (t_info->tm_hour * 3600) + (t_info->tm_min * 60) + t_info->tm_sec,
                       time.tv_usec / 1000);
