@@ -24,6 +24,8 @@
 
 #include <usrp_reader_gen2/api.h>
 #include <gnuradio/block.h>
+#include <gnuradio/message.h>
+#include <gnuradio/msg_queue.h>
 
 namespace gr {
   namespace usrp_reader_gen2 {
