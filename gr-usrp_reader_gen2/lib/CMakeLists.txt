@@ -28,6 +28,7 @@ link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND usrp_reader_gen2_sources
     rfid_center_ff_impl.cc
     rfid_clock_recovery_zc_ff_impl.cc
+    rfid_command_gate_cc_impl.cc
 )
 
 set(usrp_reader_gen2_sources "${usrp_reader_gen2_sources}" PARENT_SCOPE)
