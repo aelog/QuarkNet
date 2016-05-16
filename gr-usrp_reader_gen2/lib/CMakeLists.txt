@@ -30,6 +30,7 @@ list(APPEND usrp_reader_gen2_sources
     rfid_clock_recovery_zc_ff_impl.cc
     rfid_command_gate_cc_impl.cc
     rfid_global_vars.cc
+    rfid_reader_decoder_impl.cc
 )
 
 set(usrp_reader_gen2_sources "${usrp_reader_gen2_sources}" PARENT_SCOPE)

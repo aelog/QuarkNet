@@ -20,5 +20,6 @@
 install(FILES
     usrp_reader_gen2_rfid_center_ff.xml
     usrp_reader_gen2_rfid_clock_recovery_zc_ff.xml
-    usrp_reader_gen2_rfid_command_gate_cc.xml DESTINATION share/gnuradio/grc/blocks
+    usrp_reader_gen2_rfid_command_gate_cc.xml
+    usrp_reader_gen2_rfid_reader_decoder.xml DESTINATION share/gnuradio/grc/blocks
 )
