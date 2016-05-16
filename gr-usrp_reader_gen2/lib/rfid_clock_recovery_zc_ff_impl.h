@@ -28,10 +28,16 @@ namespace gr {
 
     class rfid_clock_recovery_zc_ff_impl : public rfid_clock_recovery_zc_ff
     {
-     private:
-      // Nothing to declare in this block.
+    private:
+      float d_nominal_sp_pulse;
+      float d_samples_per_pulse;
+      float d_last_zc_count;
+      bool d_last_was_pos;
+      float d_max_drift;
+      float d_alpha;
+      int d_interp_factor; //Kill this.
 
-     public:
+    public:
       rfid_clock_recovery_zc_ff_impl(int samples_per_pulse, int interp_factor);
       ~rfid_clock_recovery_zc_ff_impl();
 
