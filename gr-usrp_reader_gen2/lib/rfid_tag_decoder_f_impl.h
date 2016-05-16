@@ -28,10 +28,20 @@ namespace gr {
 
     class rfid_tag_decoder_f_impl : public rfid_tag_decoder_f
     {
-     private:
-      // Nothing to declare in this block.
+    private:
+      //std::vector<float>	d_preamble_cor_vec;
+      int d_preamble_offset;
+      int d_one_vlen;
+      char *d_tag_bit_vector;
+      int d_skip_count;
+      int d_samples_since_reset;
+      int d_preamble_miss_threshold;
+      float d_last_score;
+      int d_samples_processed;
 
-     public:
+      gr::msg_queue::sptr d_ctrl_out;  //Pipe control messages to reader block.
+
+    public:
       rfid_tag_decoder_f_impl();
       ~rfid_tag_decoder_f_impl();
 
@@ -42,6 +52,8 @@ namespace gr {
            gr_vector_int &ninput_items,
            gr_vector_const_void_star &input_items,
            gr_vector_void_star &output_items);
+
+      void set_ctrl_out(const gr::msg_queue::sptr msgq) { d_ctrl_out = msgq; }
     };
 
   } // namespace usrp_reader_gen2
