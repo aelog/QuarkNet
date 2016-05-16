@@ -18,5 +18,6 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    usrp_reader_gen2_rfid_center_ff.xml DESTINATION share/gnuradio/grc/blocks
+    usrp_reader_gen2_rfid_center_ff.xml
+    usrp_reader_gen2_rfid_clock_recovery_zc_ff.xml DESTINATION share/gnuradio/grc/blocks
 )
