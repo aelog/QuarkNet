@@ -26,5 +26,6 @@ install(FILES
     rfid_clock_recovery_zc_ff.h
     rfid_command_gate_cc.h
     rfid_reader_decoder.h
-    rfid_tag_decoder_f.h DESTINATION include/usrp_reader_gen2
+    rfid_tag_decoder_f.h
+    rfid_reader_f.h DESTINATION include/usrp_reader_gen2
 )

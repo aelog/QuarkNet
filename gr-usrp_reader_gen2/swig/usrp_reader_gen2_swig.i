@@ -13,6 +13,7 @@
 #include "usrp_reader_gen2/rfid_command_gate_cc.h"
 #include "usrp_reader_gen2/rfid_reader_decoder.h"
 #include "usrp_reader_gen2/rfid_tag_decoder_f.h"
+#include "usrp_reader_gen2/rfid_reader_f.h"
 %}
 
 
@@ -26,3 +27,5 @@ GR_SWIG_BLOCK_MAGIC2(usrp_reader_gen2, rfid_command_gate_cc);
 GR_SWIG_BLOCK_MAGIC2(usrp_reader_gen2, rfid_reader_decoder);
 %include "usrp_reader_gen2/rfid_tag_decoder_f.h"
 GR_SWIG_BLOCK_MAGIC2(usrp_reader_gen2, rfid_tag_decoder_f);
+%include "usrp_reader_gen2/rfid_reader_f.h"
+GR_SWIG_BLOCK_MAGIC2(usrp_reader_gen2, rfid_reader_f);
