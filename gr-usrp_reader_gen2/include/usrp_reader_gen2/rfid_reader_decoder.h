@@ -23,6 +23,8 @@
 #define INCLUDED_USRP_READER_GEN2_RFID_READER_DECODER_H
 
 #include <usrp_reader_gen2/api.h>
+#include <gnuradio/message.h>
+#include <gnuradio/msg_queue.h>
 #include <gnuradio/sync_block.h>
 
 namespace gr {
