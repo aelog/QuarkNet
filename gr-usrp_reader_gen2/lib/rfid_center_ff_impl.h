@@ -28,10 +28,14 @@ namespace gr {
 
     class rfid_center_ff_impl : public rfid_center_ff
     {
-     private:
-      // Nothing to declare in this block.
+    private:
+      float *d_window_samples;    //Array to hold samples for averaging amplitude
+      int d_window_length;        //Length of window
+      int d_window_index;         //Index to oldest sample
+      double d_avg_amp;           //Average amplitude over window
+      int d_samples_per_pulse;
 
-     public:
+    public:
       rfid_center_ff_impl(int samples_per_pulse);
       ~rfid_center_ff_impl();
 
