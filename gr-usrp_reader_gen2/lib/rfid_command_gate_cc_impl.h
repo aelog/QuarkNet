@@ -42,7 +42,7 @@ namespace gr {
       static constexpr float AVG_WIN = 1500; // Window to average amplitude over, in us
       static constexpr float THRESH_FRACTION = 0.75; //Percent of avg amplitude to detect edges
       static constexpr double MIN_AMP_THRESH = 0;     //Eventually, expose as user parameter
-      float * d_window_samples;   //Array to hold samples for averaging amplitude
+      float *d_window_samples;   //Array to hold samples for averaging amplitude
       int d_window_length;        //Length of window
       int d_window_index;         //Index to oldest sample
       double d_avg_amp;           //Average amplitude over window
