@@ -25,8 +25,31 @@
 #include <gnuradio/io_signature.h>
 #include "rfid_command_gate_cc_impl.h"
 
+#include <signal.h>
+
 namespace gr {
   namespace usrp_reader_gen2 {
+
+    //This alarm system is necessary because of the gnuradio scheduler.
+    // If no samples are passed through to the reader block, it never
+    // gets scheduled. Also, it cannot act as an independent source, because
+    // it will get scheduled EVERY time if it is not producing output.
+    bool trigger_cycle = false;
+    static itimerval timer;
+
+    void
+    catch_trigger_alarm(int sig)
+    {
+      trigger_cycle = true;
+
+      if (!TIMED_CYCLE_MODE) {
+        timeval t = {0,0};
+        timer.it_interval = t;
+        timer.it_value = t;
+        signal(sig, catch_trigger_alarm);
+        setitimer(ITIMER_REAL, &timer, NULL);
+      }
+    }
 
     rfid_command_gate_cc::sptr
     rfid_command_gate_cc::make(int pw, int T1, int sample_rate)

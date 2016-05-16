@@ -54,6 +54,8 @@ namespace gr {
       double d_thresh;            //Amplitude threshold for detecing edges
       double d_min_amp_thresh;    //To filter out nearby readers
 
+      gr_msg_queue_sptr d_ctrl_out;  //Pipe control messages to reader block.
+
       bool is_negative_edge(float sample);
       bool is_positive_edge(float sample);
       void calc_signal_stats(float *buffer, int len, double *max, double *min, double *avg, double *std_dev);
