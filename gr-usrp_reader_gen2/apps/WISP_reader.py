@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 #Developed by: Michael Buettner (buettner@cs.washington.edu)
 #Note: To use this application with the WISP, you will need to modify
 #      rfid_global_vars.h. Look for the WISP comments, uncomment those, and
