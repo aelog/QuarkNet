@@ -22,5 +22,5 @@
 ########################################################################
 install(FILES
     api.h
-    DESTINATION include/usrp_reader_gen2
+    rfid_center_ff.h DESTINATION include/usrp_reader_gen2
 )

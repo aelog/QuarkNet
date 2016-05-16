@@ -26,6 +26,7 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND usrp_reader_gen2_sources
+    rfid_center_ff_impl.cc
 )
 
 set(usrp_reader_gen2_sources "${usrp_reader_gen2_sources}" PARENT_SCOPE)
