@@ -23,6 +23,10 @@
 
 #include <usrp_reader_gen2/rfid_command_gate_cc.h>
 
+#ifndef READER_VARS
+#include "rfid_global_vars.h"
+#endif
+
 namespace gr {
   namespace usrp_reader_gen2 {
 
