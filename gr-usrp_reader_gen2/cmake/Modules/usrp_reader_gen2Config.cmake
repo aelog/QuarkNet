@@ -1,0 +1,30 @@
+INCLUDE(FindPkgConfig)
+PKG_CHECK_MODULES(PC_USRP_READER_GEN2 usrp_reader_gen2)
+
+FIND_PATH(
+    USRP_READER_GEN2_INCLUDE_DIRS
+    NAMES usrp_reader_gen2/api.h
+    HINTS $ENV{USRP_READER_GEN2_DIR}/include
+        ${PC_USRP_READER_GEN2_INCLUDEDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/include
+          /usr/local/include
+          /usr/include
+)
+
+FIND_LIBRARY(
+    USRP_READER_GEN2_LIBRARIES
+    NAMES gnuradio-usrp_reader_gen2
+    HINTS $ENV{USRP_READER_GEN2_DIR}/lib
+        ${PC_USRP_READER_GEN2_LIBDIR}
+    PATHS ${CMAKE_INSTALL_PREFIX}/lib
+          ${CMAKE_INSTALL_PREFIX}/lib64
+          /usr/local/lib
+          /usr/local/lib64
+          /usr/lib
+          /usr/lib64
+)
+
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(USRP_READER_GEN2 DEFAULT_MSG USRP_READER_GEN2_LIBRARIES USRP_READER_GEN2_INCLUDE_DIRS)
+MARK_AS_ADVANCED(USRP_READER_GEN2_LIBRARIES USRP_READER_GEN2_INCLUDE_DIRS)
+
