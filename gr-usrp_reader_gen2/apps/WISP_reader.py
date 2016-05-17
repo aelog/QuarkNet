@@ -88,10 +88,13 @@ class my_top_block(gr.top_block):
         freq = 915e6
         rx_gain = 20
 
-        stream_args = uhd.stream_args('fc32', # use 32-bit float as 'cpu format'
-                                      channels=range(2)) # Set up USRP to transmit on both daughterboards
-
-        tx = uhd.usrp_sink(device_addr=args.address_args, stream_args=stream_args)
+        tx = uhd.usrp_sink(
+            device_addr=args.address_args,
+            stream_args=uhd.stream_args(
+                'fc32',             # use 32-bit float as 'cpu format'
+                channels=range(2)   # Set up USRP to transmit on both daughterboards
+            )
+        )
         tx.set_interp_rate(interp_rate)
         tx_subdev = (0,0)
         tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
