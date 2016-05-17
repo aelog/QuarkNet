@@ -70,8 +70,8 @@ class my_top_block(gr.top_block):
 
 
 
-        to_complex = gr.float_to_complex()
-        amp = gr.multiply_const_ff(amplitude)
+        to_complex = blocks.float_to_complex()
+        amp = blocks.multiply_const_ff(amplitude)
 
         #f_sink = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink.out');
         #f_sink2 = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink2.out');
