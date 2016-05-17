@@ -5,7 +5,7 @@
 #      comment out the 40 kHz settings.
 
 from gnuradio import gr, gru
-from gnuradio import usrp
+from gnuradio import uhd
 from gnuradio import eng_notation
 from gnuradio.eng_option import eng_option
 from string import split
@@ -14,7 +14,7 @@ from string import atoi
 import time
 import os
 import math
-import rfid
+import usrp_reader_gen2 as usrp
 
 
 log_file = open("log_out.log", "a")
