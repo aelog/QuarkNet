@@ -49,7 +49,7 @@ class my_top_block(gr.top_block):
 
         to_mag = blocks.complex_to_mag()
 
-        center = rfid.center_ff(4)
+        center = usrp.rfid_center_ff(4)
 
         omega = 2
         mu = 0.25
@@ -60,11 +60,11 @@ class my_top_block(gr.top_block):
         mm = gr.clock_recovery_mm_ff(omega, gain_omega, mu, gain_mu, omega_relative_limit)
 
 
-        self.reader = rfid.reader_f(int(128e6/interp_rate));
+        self.reader = usrp.rfid_reader_f(int(128e6/interp_rate));
 
-        tag_decoder = rfid.tag_decoder_f()
+        tag_decoder =usrp.rfid_tag_decoder_f()
 
-        command_gate = rfid.command_gate_cc(12, 60, 64000000 / dec_rate / sw_dec)
+        command_gate = usrp.rfid_command_gate_cc(12, 60, 64000000 / dec_rate / sw_dec)
 
 
 
