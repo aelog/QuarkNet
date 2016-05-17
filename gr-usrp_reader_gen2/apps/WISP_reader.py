@@ -4,6 +4,7 @@
 #      rfid_global_vars.h. Look for the WISP comments, uncomment those, and
 #      comment out the 40 kHz settings.
 
+from gnuradio import blocks
 from gnuradio import gr, gru
 from gnuradio import uhd
 from gnuradio import eng_notation
@@ -25,13 +26,13 @@ class my_top_block(gr.top_block):
 
         amplitude = 30000
 
-	#rx_out = gr.file_sink(gr.sizeof_gr_complex, "./rx.out")
-        matched_filter_out = gr.file_sink(gr.sizeof_gr_complex, "./matched_filter.out")
-        command_gate_out = gr.file_sink(gr.sizeof_gr_complex, "./command_gate.out")
-        #mag_out = gr.file_sink(gr.sizeof_float, "./mag.out")
-        center_out = gr.file_sink(gr.sizeof_float, "./center.out")
-        agc_out = gr.file_sink(gr.sizeof_float, "./agc.out")
-        mm_out = gr.file_sink(gr.sizeof_float, "./mm.out")
+	#rx_out = blocks.file_sink(gr.sizeof_gr_complex, "./rx.out")
+        matched_filter_out = blocks.file_sink(gr.sizeof_gr_complex, "./matched_filter.out")
+        command_gate_out = blocks.file_sink(gr.sizeof_gr_complex, "./command_gate.out")
+        #mag_out = blocks.file_sink(gr.sizeof_float, "./mag.out")
+        center_out = blocks.file_sink(gr.sizeof_float, "./center.out")
+        agc_out = blocks.file_sink(gr.sizeof_float, "./agc.out")
+        mm_out = blocks.file_sink(gr.sizeof_float, "./mm.out")
 
         interp_rate = 128
         dec_rate = 8
@@ -69,8 +70,8 @@ class my_top_block(gr.top_block):
         to_complex = gr.float_to_complex()
         amp = gr.multiply_const_ff(amplitude)
 
-        #f_sink = gr.file_sink(gr.sizeof_gr_complex, 'f_sink.out');
-        #f_sink2 = gr.file_sink(gr.sizeof_gr_complex, 'f_sink2.out');
+        #f_sink = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink.out');
+        #f_sink2 = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink2.out');
 
 
             #TX
