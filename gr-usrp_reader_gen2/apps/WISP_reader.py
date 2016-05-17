@@ -4,6 +4,7 @@
 #      rfid_global_vars.h. Look for the WISP comments, uncomment those, and
 #      comment out the 40 kHz settings.
 
+from argparse import ArgumentParser
 from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import digital
@@ -26,6 +27,11 @@ log_file = open("log_out.log", "a")
 class my_top_block(gr.top_block):
     def __init__(self):
         gr.top_block.__init__(self)
+
+        arg_parser = ArgumentParser()
+        arg_parser.add_argument('-a', '--address-args', default='', help='UHD device address args [default=%default]')
+
+        args = arg_parser.parse_args()
 
         amplitude = 30000
 
@@ -82,7 +88,10 @@ class my_top_block(gr.top_block):
         freq = 915e6
         rx_gain = 20
 
-        tx = usrp.sink_c(fusb_block_size = 1024, fusb_nblocks=8)
+        stream_args = uhd.stream_args('fc32', # use 32-bit float as 'cpu format'
+                                      channels=range(2)) # Set up USRP to transmit on both daughterboards
+
+        tx = uhd.usrp_sink(device_addr=args.address_args, stream_args=stream_args)
         tx.set_interp_rate(interp_rate)
         tx_subdev = (0,0)
         tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
