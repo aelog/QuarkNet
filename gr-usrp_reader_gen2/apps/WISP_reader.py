@@ -5,6 +5,7 @@
 #      comment out the 40 kHz settings.
 
 from gnuradio import blocks
+from gnuradio import filter
 from gnuradio import gr, gru
 from gnuradio import uhd
 from gnuradio import eng_notation
@@ -41,7 +42,7 @@ class my_top_block(gr.top_block):
         num_taps = int(64000 / ( (dec_rate * 4) * 256 )) #Filter matched to 1/4 of the 256 kHz tag cycle
         taps = [complex(1,1)] * num_taps
 
-        matched_filt = gr.fir_filter_ccc(sw_dec, taps);
+        matched_filt = filter.fir_filter_ccc(sw_dec, taps);
 
         agc = gr.agc2_cc(0.3, 1e-3, 1, 1, 100)
 
