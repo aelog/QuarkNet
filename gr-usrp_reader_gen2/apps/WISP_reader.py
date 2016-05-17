@@ -29,7 +29,7 @@ class my_top_block(gr.top_block):
 
         amplitude = 30000
 
-	#rx_out = blocks.file_sink(gr.sizeof_gr_complex, "./rx.out")
+        #rx_out = blocks.file_sink(gr.sizeof_gr_complex, "./rx.out")
         matched_filter_out = blocks.file_sink(gr.sizeof_gr_complex, "./matched_filter.out")
         command_gate_out = blocks.file_sink(gr.sizeof_gr_complex, "./command_gate.out")
         #mag_out = blocks.file_sink(gr.sizeof_float, "./mag.out")
@@ -77,9 +77,7 @@ class my_top_block(gr.top_block):
         #f_sink2 = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink2.out');
 
 
-            #TX
-
-
+#TX
 
         freq = 915e6
         rx_gain = 20
@@ -135,10 +133,7 @@ class my_top_block(gr.top_block):
         self.connect(agc2, agc_out)
         self.connect(mm, mm_out)
 
-
-
 def main():
-
 
     tb = my_top_block()
 
