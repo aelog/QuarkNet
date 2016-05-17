@@ -50,7 +50,7 @@ class my_top_block(gr.top_block):
         num_taps = int(64000 / ( (dec_rate * 4) * 256 )) #Filter matched to 1/4 of the 256 kHz tag cycle
         taps = [complex(1,1)] * num_taps
 
-        matched_filt = filter.fir_filter_ccc(sw_dec, taps);
+        matched_filt = filter.fir_filter_ccc(sw_dec, taps)
 
         agc = analog.agc2_cc(0.3, 1e-3, 1, 1)
 
@@ -67,7 +67,7 @@ class my_top_block(gr.top_block):
         mm = digital.clock_recovery_mm_ff(omega, gain_omega, mu, gain_mu, omega_relative_limit)
 
 
-        self.reader = usrp.rfid_reader_f(int(128e6/interp_rate));
+        self.reader = usrp.rfid_reader_f(int(128e6/interp_rate))
 
         tag_decoder =usrp.rfid_tag_decoder_f()
 
@@ -79,8 +79,8 @@ class my_top_block(gr.top_block):
         to_complex = blocks.float_to_complex()
         amp = blocks.multiply_const_ff(amplitude)
 
-        #f_sink = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink.out');
-        #f_sink2 = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink2.out');
+        #f_sink = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink.out')
+        #f_sink2 = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink2.out')
 
 
 #TX
@@ -131,7 +131,7 @@ class my_top_block(gr.top_block):
         self.connect(command_gate, agc)
         self.connect(agc, to_mag)
         self.connect(to_mag, center, agc2, mm, tag_decoder)
-        self.connect(tag_decoder, self.reader, amp, to_complex, tx);
+        self.connect(tag_decoder, self.reader, amp, to_complex, tx)
 #################
 
 	#self.connect(rx, rx_out)
@@ -157,7 +157,7 @@ def main():
             log_file.write("T,CMD,ERROR,BITS,SNR\n")
             log = tb.reader.get_log()
             print "Log has %s Entries"% (str(log.count()))
-            i = log.count();
+            i = log.count()
 
 
             for k in range(0, i):
@@ -178,27 +178,27 @@ def print_log_msg(msg, log_file):
     if msg.type() == LOG_START_CYCLE:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t Started Cycle" %(fields[-1])
-        log_file.write(fields[-1] + ",START_CYCLE,0,0,0\n");
+        log_file.write(fields[-1] + ",START_CYCLE,0,0,0\n")
 
     if msg.type() == LOG_QUERY:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t Query" %(fields[-1])
-        log_file.write(fields[-1] + ",QUERY,0,0,0\n");
+        log_file.write(fields[-1] + ",QUERY,0,0,0\n")
 
     if msg.type() == LOG_QREP:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t QRep" %(fields[-1])
-        log_file.write(fields[-1] + ",QREP,0,0,0\n");
+        log_file.write(fields[-1] + ",QREP,0,0,0\n")
 
     if msg.type() == LOG_ACK:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t ACK" %(fields[-1])
-        log_file.write(fields[-1] + ",ACK,0,0,0\n");
+        log_file.write(fields[-1] + ",ACK,0,0,0\n")
 
     if msg.type() == LOG_NAK:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t NAK" %(fields[-1])
-        log_file.write(fields[-1] + ",NAK,0,0,0\n");
+        log_file.write(fields[-1] + ",NAK,0,0,0\n")
 
 
     if msg.type() == LOG_RN16:
@@ -210,10 +210,10 @@ def print_log_msg(msg, log_file):
         if msg.arg2() == LOG_ERROR:
 
             print "%s\t    %s RN16 w/ Error: %04X%s" %(fields[-1],fRed, tmp, fReset)
-            log_file.write(fields[-1] + ",RN16,1," +"%04X" % tmp  + ","+snr + "\n");
+            log_file.write(fields[-1] + ",RN16,1," +"%04X" % tmp  + ","+snr + "\n")
         else:
             print "%s\t    %s RN16: %04X%s" %(fields[-1],fBlue, tmp, fReset)
-            log_file.write(fields[-1] +",RN16,0," + "%04X" % tmp + "," +snr + "\n");
+            log_file.write(fields[-1] +",RN16,0," + "%04X" % tmp + "," +snr + "\n")
 
 
     if msg.type() == LOG_EPC:
@@ -225,21 +225,21 @@ def print_log_msg(msg, log_file):
         tmp = int(epc,2)
         if msg.arg2() == LOG_ERROR:
             print "%s\t    %s EPC w/ Error: %024X%s" %(fields[-1],fRed, tmp, fReset)
-            log_file.write(fields[-1] + ",EPC,1," + "%024X" % tmp + ","+snr + "\n");
+            log_file.write(fields[-1] + ",EPC,1," + "%024X" % tmp + ","+snr + "\n")
         else:
             print "%s\t    %s EPC: %024X%s" %(fields[-1],fBlue, tmp, fReset)
-            log_file.write(fields[-1] +",EPC,0," + "%024X" % tmp + "," +snr + "\n");
+            log_file.write(fields[-1] +",EPC,0," + "%024X" % tmp + "," +snr + "\n")
 
     if msg.type() == LOG_EMPTY:
         fields = split(strip(msg.to_string()), " ")
         snr = strip(fields[0])
         print "%s\t    - Empty Slot - " %(fields[-1])
-        log_file.write(fields[-1] + ",EMPTY,0,0,"+snr+"\n");
+        log_file.write(fields[-1] + ",EMPTY,0,0,"+snr+"\n")
 
     if msg.type() == LOG_COLLISION:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t    - Collision - " %(fields[-1])
-        log_file.write(fields[-1] + ",COLLISION,0,0,0\n");
+        log_file.write(fields[-1] + ",COLLISION,0,0,0\n")
 
 
 if __name__ == '__main__':
