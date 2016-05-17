@@ -1,0 +1,29 @@
+
+pkgname=quarknet-git
+pkgver=r124.6c38308
+pkgrel=1
+pkgdesc='QuarkNet port to latest gnuradio'
+arch=(i686 x86_64)
+license=(GPL)
+source=("git://github.com/aelog/QuarkNet.git#branch=port")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd QuarkNet
+  printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+  mkdir -p build
+}
+
+build() {
+  cd build
+  cmake ../QuarkNet/gr-usrp_reader_gen2 -DCMAKE_INSTALL_PREFIX=/usr
+  make
+}
+
+package() {
+  cd build
+  make DESTDIR="$pkgdir" install
+}
