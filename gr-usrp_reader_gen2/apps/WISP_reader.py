@@ -47,7 +47,7 @@ class my_top_block(gr.top_block):
 
         agc = analog.agc2_cc(0.3, 1e-3, 1, 1)
 
-        to_mag = gr.complex_to_mag()
+        to_mag = blocks.complex_to_mag()
 
         center = rfid.center_ff(4)
 
