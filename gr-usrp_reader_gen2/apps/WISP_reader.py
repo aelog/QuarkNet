@@ -4,6 +4,7 @@
 #      rfid_global_vars.h. Look for the WISP comments, uncomment those, and
 #      comment out the 40 kHz settings.
 
+from gnuradio import analog
 from gnuradio import blocks
 from gnuradio import filter
 from gnuradio import gr, gru
@@ -44,7 +45,7 @@ class my_top_block(gr.top_block):
 
         matched_filt = filter.fir_filter_ccc(sw_dec, taps);
 
-        agc = gr.agc2_cc(0.3, 1e-3, 1, 1, 100)
+        agc = analog.agc2_cc(0.3, 1e-3, 1, 1)
 
         to_mag = gr.complex_to_mag()
 
