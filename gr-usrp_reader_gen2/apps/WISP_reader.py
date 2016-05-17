@@ -6,6 +6,7 @@
 
 from gnuradio import analog
 from gnuradio import blocks
+from gnuradio import digital
 from gnuradio import filter
 from gnuradio import gr, gru
 from gnuradio import uhd
@@ -57,7 +58,7 @@ class my_top_block(gr.top_block):
         gain_omega = .25 * gain_mu * gain_mu
         omega_relative_limit = .05
 
-        mm = gr.clock_recovery_mm_ff(omega, gain_omega, mu, gain_mu, omega_relative_limit)
+        mm = digital.clock_recovery_mm_ff(omega, gain_omega, mu, gain_mu, omega_relative_limit)
 
 
         self.reader = usrp.rfid_reader_f(int(128e6/interp_rate));
