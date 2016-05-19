@@ -4,6 +4,7 @@
 #      rfid_global_vars.h. Look for the WISP comments, uncomment those, and
 #      comment out the 40 kHz settings.
 
+from datetime import  datetime
 from gnuradio import gr, gru
 from gnuradio import usrp
 from gnuradio import eng_notation
@@ -17,7 +18,10 @@ import math
 import rfid
 
 
-log_file = open("log_out.log", "a")
+logs_folder = os.path.expanduser('~/usrp_logs/') + str(datetime.now()) + '/'
+os.makedirs(logs_folder)
+
+log_file = open(logs_folder + 'log_out.log', 'a')
 
 class my_top_block(gr.top_block):
     def __init__(self):
@@ -26,12 +30,12 @@ class my_top_block(gr.top_block):
         amplitude = 30000
 
 	#rx_out = gr.file_sink(gr.sizeof_gr_complex, "./rx.out")
-        matched_filter_out = gr.file_sink(gr.sizeof_gr_complex, "./matched_filter.out")
-        command_gate_out = gr.file_sink(gr.sizeof_gr_complex, "./command_gate.out")
+        matched_filter_out = gr.file_sink(gr.sizeof_gr_complex,  logs_folder + 'matched_filter.out')
+        command_gate_out = gr.file_sink(gr.sizeof_gr_complex, logs_folder + 'command_gate.out')
         #mag_out = gr.file_sink(gr.sizeof_float, "./mag.out")
-        center_out = gr.file_sink(gr.sizeof_float, "./center.out")
-        agc_out = gr.file_sink(gr.sizeof_float, "./agc.out")
-        mm_out = gr.file_sink(gr.sizeof_float, "./mm.out")
+        center_out = gr.file_sink(gr.sizeof_float, logs_folder + 'center.out')
+        agc_out = gr.file_sink(gr.sizeof_float, logs_folder + 'agc.out')
+        mm_out = gr.file_sink(gr.sizeof_float, logs_folder + 'mm.out')
 
         interp_rate = 128
         dec_rate = 8
