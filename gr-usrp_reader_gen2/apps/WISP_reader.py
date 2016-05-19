@@ -96,7 +96,7 @@ class my_top_block(gr.top_block):
             device_addr=args.address_args,
             stream_args=uhd.stream_args(
                 'fc32',             # use 32-bit float as 'cpu format'
-                channels=range(2)   # Set up USRP to transmit on both daughterboards
+                channels=range(1)
             )
         )
 
@@ -132,7 +132,7 @@ class my_top_block(gr.top_block):
             device_addr=args.address_args,
             stream_args=uhd.stream_args(
                 'fc32',             # use 32-bit float as 'cpu format'
-                channels=range(2)   # Set up USRP to receive on both daughterboards
+                channels=range(1)
             )
         )
 
@@ -163,22 +163,23 @@ class my_top_block(gr.top_block):
 
 
 # Build Graph - TODO port.
-#         self.connect(rx, matched_filt)
-#         self.connect(matched_filt, command_gate)
-#         self.connect(command_gate, agc)
-#         self.connect(agc, to_mag)
-#         self.connect(to_mag, center, agc2, mm, tag_decoder)
-#         self.connect(tag_decoder, self.reader, amp, to_complex, tx)
+
+        self.connect(rx, matched_filt)
+        self.connect(matched_filt, command_gate)
+        self.connect(command_gate, agc)
+        self.connect(agc, to_mag)
+        self.connect(to_mag, center, agc2, mm, tag_decoder)
+        self.connect(tag_decoder, self.reader, amp, to_complex, tx)
 
 # Log to file
 
-#         #self.connect(rx, rx_out)
-#         self.connect(matched_filt, matched_filter_out)
-#         self.connect(command_gate, command_gate_out)
-#         #self.connect(to_mag, mag_out)
-#         self.connect(center, center_out)
-#         self.connect(agc2, agc_out)
-#         self.connect(mm, mm_out)
+        #self.connect(rx, rx_out)
+        self.connect(matched_filt, matched_filter_out)
+        self.connect(command_gate, command_gate_out)
+        #self.connect(to_mag, mag_out)
+        self.connect(center, center_out)
+        self.connect(agc2, agc_out)
+        self.connect(mm, mm_out)
 
 def main():
 
