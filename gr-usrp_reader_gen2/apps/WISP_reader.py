@@ -158,7 +158,7 @@ class my_top_block(gr.top_block):
 
         command_gate.set_ctrl_out(self.reader.ctrl_q())
         tag_decoder.set_ctrl_out(self.reader.ctrl_q())
-        agc2 = gr.agc2_ff(0.3, 1e-3, 1, 1, 100)
+        agc2 = analog.agc2_ff(0.3, 1e-3, 1, 1)
 
 
 #########Build Graph
