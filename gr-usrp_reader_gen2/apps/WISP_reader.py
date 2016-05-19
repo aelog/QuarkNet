@@ -88,6 +88,9 @@ class my_top_block(gr.top_block):
         freq = 915e6
         rx_gain = 20
 
+        d = uhd.find_devices(uhd.device_addr(args.address_args))
+        uhd_type = d[0].get('type')
+
         tx = uhd.usrp_sink(
             device_addr=args.address_args,
             stream_args=uhd.stream_args(
@@ -95,6 +98,16 @@ class my_top_block(gr.top_block):
                 channels=range(2)   # Set up USRP to transmit on both daughterboards
             )
         )
+
+        if (uhd_type == 'usrp1'):
+            print 'Detected USRP1 device!'
+
+            print 'antennas = ' + str(tx.get_antennas())
+            print 'subdev_spec = ' + tx.get_subdev_spec()
+            print 'sample rate = %f ' % tx.get_samp_rate()
+            print 'gain = %f ' % tx.get_gain()
+            print 'bandwidth = %f' % tx.get_bandwidth()
+
         tx.set_interp_rate(interp_rate)
         tx_subdev = (0,0)
         tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
