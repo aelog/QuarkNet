@@ -18,6 +18,7 @@ from string import strip
 from string import atoi
 import time
 import os
+import sys
 import math
 import usrp_reader_gen2 as usrp
 
@@ -99,27 +100,30 @@ class my_top_block(gr.top_block):
             )
         )
 
-        if (uhd_type == 'usrp1'):
-            print 'Detected USRP1 device!'
+        if (uhd_type != 'usrp1'):
+            print 'Not an USRP1 device, aborting.'
+            sys.exit(1)
 
-            print 'antennas = ' + str(tx.get_antennas())
-            print 'subdev_spec = ' + tx.get_subdev_spec()
-            print 'sample rate = %f ' % tx.get_samp_rate()
-            print 'gain = %f ' % tx.get_gain()
-            print 'bandwidth = %f' % tx.get_bandwidth()
+        print 'Detected USRP1 device!'
+
+        print 'antennas = ' + str(tx.get_antennas())
+        print 'subdev_spec = ' + tx.get_subdev_spec()
+        print 'sample rate = %f ' % tx.get_samp_rate()
+        print 'gain = %f ' % tx.get_gain()
+        print 'bandwidth = %f' % tx.get_bandwidth()
 
 
-            # tx.set_interp_rate(interp_rate)
-            # tx_subdev = (0,0)
-            # tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
-            # subdev = usrp.selected_subdev(tx, tx_subdev)
-            # subdev.set_enable(True)
-            # subdev.set_gain(subdev.gain_range()[2])
-            # t = tx.tune(subdev.which(), subdev, freq)
-            # if not t:
-            #     print "Couldn't set tx freq"
+        # tx.set_interp_rate(interp_rate)
+        # tx_subdev = (0,0)
+        # tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
+        # subdev = usrp.selected_subdev(tx, tx_subdev)
+        # subdev.set_enable(True)
+        # subdev.set_gain(subdev.gain_range()[2])
+        # t = tx.tune(subdev.which(), subdev, freq)
+        # if not t:
+        #     print "Couldn't set tx freq"
 
-            tx.set_center_freq(uhd.tune_request(freq))
+        tx.set_center_freq(uhd.tune_request(freq))
 
 #End TX
 
