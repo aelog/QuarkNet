@@ -128,7 +128,14 @@ class my_top_block(gr.top_block):
 #End TX
 
 #RX
-        rx = usrp.source_c(0, dec_rate, fusb_block_size = 512 * 4, fusb_nblocks = 16)
+        rx = uhd.usrp_source(
+            device_addr=args.address_args,
+            stream_args=uhd.stream_args(
+                'fc32',             # use 32-bit float as 'cpu format'
+                channels=range(2)   # Set up USRP to receive on both daughterboards
+            )
+        )
+
         rx_subdev_spec = (1,0)
         rx.set_mux(usrp.determine_rx_mux_value(rx, rx_subdev_spec))
         rx_subdev = usrp.selected_subdev(rx, rx_subdev_spec)
