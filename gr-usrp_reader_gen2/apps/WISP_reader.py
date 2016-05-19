@@ -136,18 +136,23 @@ class my_top_block(gr.top_block):
             )
         )
 
-        rx_subdev_spec = (1,0)
-        rx.set_mux(usrp.determine_rx_mux_value(rx, rx_subdev_spec))
-        rx_subdev = usrp.selected_subdev(rx, rx_subdev_spec)
-        rx_subdev.set_gain(rx_gain)
-        rx_subdev.set_auto_tr(False)
-        rx_subdev.set_enable(True)
+        # rx_subdev_spec = (1,0)
+        # rx.set_mux(usrp.determine_rx_mux_value(rx, rx_subdev_spec))
+        # rx_subdev = usrp.selected_subdev(rx, rx_subdev_spec)
+        # rx_subdev.set_gain(rx_gain)
+        # rx_subdev.set_auto_tr(False)
+        # rx_subdev.set_enable(True)
+        #
+        # r = usrp.tune(rx, 0, rx_subdev, freq)
+        #
+        # self.rx = rx
+        # if not r:
+        #     print "Couldn't set rx freq"
 
-        r = usrp.tune(rx, 0, rx_subdev, freq)
+        rx.set_center_freq(uhd.tune_request(freq))
+        rx.set_gain(rx_gain)
 
-        self.rx = rx
-        if not r:
-            print "Couldn't set rx freq"
+
 
 #End RX
 
