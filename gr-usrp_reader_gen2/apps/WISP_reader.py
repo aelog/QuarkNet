@@ -90,15 +90,19 @@ class my_top_block(gr.top_block):
         rx_gain = 20
 
         d = uhd.find_devices(uhd.device_addr(args.address_args))
+        if d:
+            print 'Available UHD devices: ' + str(d)
+
         try:
             uhd_type = d[0].get('type')
         except IndexError:
             print 'Fatal error. Did you connect the USRP to an USB port?'
             sys.exit(1)
 
+        serial = d[0].get('serial')
 
         tx = uhd.usrp_sink(
-            device_addr=args.address_args,
+            device_addr='serial=' + serial,
             stream_args=uhd.stream_args(
                 'fc32',             # use 32-bit float as 'cpu format'
                 channels=range(1)
@@ -109,7 +113,7 @@ class my_top_block(gr.top_block):
             print 'Not an USRP1 device, aborting.'
             sys.exit(1)
 
-        print 'Detected USRP1 device!'
+        print 'Detected USRP1 device with serial ' + serial
 
         print 'antennas = ' + str(tx.get_antennas())
         print 'subdev_spec = ' + tx.get_subdev_spec()
@@ -134,7 +138,7 @@ class my_top_block(gr.top_block):
 
 #RX
         rx = uhd.usrp_source(
-            device_addr=args.address_args,
+            device_addr='serial=' + serial,
             stream_args=uhd.stream_args(
                 'fc32',             # use 32-bit float as 'cpu format'
                 channels=range(1)
