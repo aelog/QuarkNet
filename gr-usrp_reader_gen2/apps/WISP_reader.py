@@ -129,10 +129,13 @@ class my_top_block(gr.top_block):
         # subdev.set_enable(True)
         # subdev.set_gain(subdev.gain_range()[2])
         # t = tx.tune(subdev.which(), subdev, freq)
-        # if not t:
-        #     print "Couldn't set tx freq"
+        tx_center_freq = uhd.tune_request(freq)
 
-        tx.set_center_freq(uhd.tune_request(freq))
+        if not tx_center_freq:
+            print 'Could not set TX freq'
+            sys.exit(1)
+
+        tx.set_center_freq(tx_center_freq)
 
 #End TX
 
@@ -154,12 +157,13 @@ class my_top_block(gr.top_block):
         # rx_subdev.set_enable(True)
         #
         # r = usrp.tune(rx, 0, rx_subdev, freq)
-        #
-        # self.rx = rx
-        # if not r:
-        #     print "Couldn't set rx freq"
+        rx_center_freq = uhd.tune_request(freq)
 
-        rx.set_center_freq(uhd.tune_request(freq))
+        if not rx_center_freq:
+            print 'Could not set RX freq'
+            sys.exit(1)
+
+        rx.set_center_freq(rx_center_freq)
         rx.set_gain(rx_gain)
 
 
