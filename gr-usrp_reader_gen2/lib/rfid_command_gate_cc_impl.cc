@@ -273,6 +273,10 @@ namespace gr {
       return written;
     }
 
+    void rfid_command_gate_cc_impl::set_ctrl_out(const msg_queue::sptr msgq)
+    {
+      d_ctrl_out = msgq;
+    }
 
     inline bool
     rfid_command_gate_cc_impl::is_negative_edge(float sample)

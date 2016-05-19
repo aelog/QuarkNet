@@ -221,6 +221,11 @@ namespace gr {
       return written;
     }
 
+    void rfid_tag_decoder_f_impl::set_ctrl_out(const msg_queue::sptr msgq)
+    {
+      d_ctrl_out = msgq;
+    }
+
   } /* namespace usrp_reader_gen2 */
 } /* namespace gr */
 

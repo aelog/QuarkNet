@@ -49,6 +49,8 @@ namespace gr {
        * creating new instances.
        */
       static sptr make(int pw, int T1, int sample_rate);
+
+      virtual void set_ctrl_out(const gr::msg_queue::sptr msgq) = 0;
     };
 
   } // namespace usrp_reader_gen2
