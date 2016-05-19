@@ -136,6 +136,7 @@ class my_top_block(gr.top_block):
             )
         )
 
+
         # rx_subdev_spec = (1,0)
         # rx.set_mux(usrp.determine_rx_mux_value(rx, rx_subdev_spec))
         # rx_subdev = usrp.selected_subdev(rx, rx_subdev_spec)
@@ -161,22 +162,23 @@ class my_top_block(gr.top_block):
         agc2 = analog.agc2_ff(0.3, 1e-3, 1, 1)
 
 
-#########Build Graph
-        self.connect(rx, matched_filt)
-        self.connect(matched_filt, command_gate)
-        self.connect(command_gate, agc)
-        self.connect(agc, to_mag)
-        self.connect(to_mag, center, agc2, mm, tag_decoder)
-        self.connect(tag_decoder, self.reader, amp, to_complex, tx)
-#################
+# Build Graph - TODO port.
+#         self.connect(rx, matched_filt)
+#         self.connect(matched_filt, command_gate)
+#         self.connect(command_gate, agc)
+#         self.connect(agc, to_mag)
+#         self.connect(to_mag, center, agc2, mm, tag_decoder)
+#         self.connect(tag_decoder, self.reader, amp, to_complex, tx)
 
-	#self.connect(rx, rx_out)
-        self.connect(matched_filt, matched_filter_out)
-        self.connect(command_gate, command_gate_out)
-        #self.connect(to_mag, mag_out)
-        self.connect(center, center_out)
-        self.connect(agc2, agc_out)
-        self.connect(mm, mm_out)
+# Log to file
+
+#         #self.connect(rx, rx_out)
+#         self.connect(matched_filt, matched_filter_out)
+#         self.connect(command_gate, command_gate_out)
+#         #self.connect(to_mag, mag_out)
+#         self.connect(center, center_out)
+#         self.connect(agc2, agc_out)
+#         self.connect(mm, mm_out)
 
 def main():
 
