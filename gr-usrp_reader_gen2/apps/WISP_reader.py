@@ -108,15 +108,19 @@ class my_top_block(gr.top_block):
             print 'gain = %f ' % tx.get_gain()
             print 'bandwidth = %f' % tx.get_bandwidth()
 
-        tx.set_interp_rate(interp_rate)
-        tx_subdev = (0,0)
-        tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
-        subdev = usrp.selected_subdev(tx, tx_subdev)
-        subdev.set_enable(True)
-        subdev.set_gain(subdev.gain_range()[2])
-        t = tx.tune(subdev.which(), subdev, freq)
-        if not t:
-            print "Couldn't set tx freq"
+
+            # tx.set_interp_rate(interp_rate)
+            # tx_subdev = (0,0)
+            # tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
+            # subdev = usrp.selected_subdev(tx, tx_subdev)
+            # subdev.set_enable(True)
+            # subdev.set_gain(subdev.gain_range()[2])
+            # t = tx.tune(subdev.which(), subdev, freq)
+            # if not t:
+            #     print "Couldn't set tx freq"
+
+            tx.set_center_freq(uhd.tune_request(freq))
+
 #End TX
 
 #RX
