@@ -125,8 +125,8 @@ namespace gr {
                        gr_vector_const_void_star &input_items,
                        gr_vector_void_star &output_items);
 
-      gr::msg_queue::sptr ctrl_q() const { return d_ctrl_q; }
-      gr::msg_queue::sptr get_log() const { return log_q; }
+      gr::msg_queue::sptr ctrl_q() const override;
+      gr::msg_queue::sptr get_log() const override;
 
     };
 

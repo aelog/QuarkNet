@@ -359,6 +359,16 @@ namespace gr {
       return written;
     }
 
+    msg_queue::sptr rfid_reader_f_impl::ctrl_q() const
+    {
+      return d_ctrl_q;
+    }
+
+    msg_queue::sptr rfid_reader_f_impl::get_log() const
+    {
+      return log_q;
+    }
+
     void
     rfid_reader_f_impl::start_cycle()
     {

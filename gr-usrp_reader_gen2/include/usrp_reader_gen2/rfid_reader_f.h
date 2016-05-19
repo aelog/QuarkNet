@@ -49,6 +49,10 @@ namespace gr {
        * creating new instances.
        */
       static sptr make(int sample_rate);
+
+      virtual gr::msg_queue::sptr ctrl_q() const = 0;
+
+      virtual gr::msg_queue::sptr get_log() const = 0;
     };
 
   } // namespace usrp_reader_gen2
