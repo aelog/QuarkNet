@@ -90,7 +90,12 @@ class my_top_block(gr.top_block):
         rx_gain = 20
 
         d = uhd.find_devices(uhd.device_addr(args.address_args))
-        uhd_type = d[0].get('type')
+        try:
+            uhd_type = d[0].get('type')
+        except IndexError:
+            print 'Fatal error. Did you connect the USRP to an USB port?'
+            sys.exit(1)
+
 
         tx = uhd.usrp_sink(
             device_addr=args.address_args,
