@@ -78,9 +78,13 @@ class my_top_block(gr.top_block):
 
         tx = usrp.sink_c(fusb_block_size = 1024, fusb_nblocks=8)
         tx.set_interp_rate(interp_rate)
+        # Manually choose transmitting subdevice
+        # instead of using usrp.pick_tx_subdevice(tx)
         tx_subdev = (0,0)
         tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
         subdev = usrp.selected_subdev(tx, tx_subdev)
+        print "Using TX board %s" % subdev.side_and_name()
+
         subdev.set_enable(True)
         subdev.set_gain(subdev.gain_range()[2])
         t = tx.tune(subdev.which(), subdev, freq)
