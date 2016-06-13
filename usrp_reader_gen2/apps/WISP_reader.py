@@ -4,6 +4,7 @@
 #      rfid_global_vars.h. Look for the WISP comments, uncomment those, and
 #      comment out the 40 kHz settings.
 
+from datetime import  datetime
 from gnuradio import gr, gru
 from gnuradio import usrp
 from gnuradio import eng_notation
@@ -17,7 +18,10 @@ import math
 import rfid
 
 
-log_file = open("log_out.log", "a")
+logs_folder = os.path.expanduser('~/usrp_logs/') + str(datetime.now()) + '/'
+os.makedirs(logs_folder)
+
+log_file = open(logs_folder + 'log_out.log', 'a')
 
 class my_top_block(gr.top_block):
     def __init__(self):
@@ -25,13 +29,13 @@ class my_top_block(gr.top_block):
 
         amplitude = 30000
 
-	#rx_out = gr.file_sink(gr.sizeof_gr_complex, "./rx.out")
-        matched_filter_out = gr.file_sink(gr.sizeof_gr_complex, "./matched_filter.out")
-        command_gate_out = gr.file_sink(gr.sizeof_gr_complex, "./command_gate.out")
+        #rx_out = gr.file_sink(gr.sizeof_gr_complex, "./rx.out")
+        matched_filter_out = gr.file_sink(gr.sizeof_gr_complex,  logs_folder + 'matched_filter.out')
+        command_gate_out = gr.file_sink(gr.sizeof_gr_complex, logs_folder + 'command_gate.out')
         #mag_out = gr.file_sink(gr.sizeof_float, "./mag.out")
-        center_out = gr.file_sink(gr.sizeof_float, "./center.out")
-        agc_out = gr.file_sink(gr.sizeof_float, "./agc.out")
-        mm_out = gr.file_sink(gr.sizeof_float, "./mm.out")
+        center_out = gr.file_sink(gr.sizeof_float, logs_folder + 'center.out')
+        agc_out = gr.file_sink(gr.sizeof_float, logs_folder + 'agc.out')
+        mm_out = gr.file_sink(gr.sizeof_float, logs_folder + 'mm.out')
 
         interp_rate = 128
         dec_rate = 8
@@ -40,7 +44,7 @@ class my_top_block(gr.top_block):
         num_taps = int(64000 / ( (dec_rate * 4) * 256 )) #Filter matched to 1/4 of the 256 kHz tag cycle
         taps = [complex(1,1)] * num_taps
 
-        matched_filt = gr.fir_filter_ccc(sw_dec, taps);
+        matched_filt = gr.fir_filter_ccc(sw_dec, taps)
 
         agc = gr.agc2_cc(0.3, 1e-3, 1, 1, 100)
 
@@ -56,35 +60,31 @@ class my_top_block(gr.top_block):
 
         mm = gr.clock_recovery_mm_ff(omega, gain_omega, mu, gain_mu, omega_relative_limit)
 
-
-        self.reader = rfid.reader_f(int(128e6/interp_rate));
+        self.reader = rfid.reader_f(int(128e6/interp_rate))
 
         tag_decoder = rfid.tag_decoder_f()
 
         command_gate = rfid.command_gate_cc(12, 60, 64000000 / dec_rate / sw_dec)
 
-
-
-
         to_complex = gr.float_to_complex()
         amp = gr.multiply_const_ff(amplitude)
 
-        #f_sink = gr.file_sink(gr.sizeof_gr_complex, 'f_sink.out');
-        #f_sink2 = gr.file_sink(gr.sizeof_gr_complex, 'f_sink2.out');
+        #f_sink = gr.file_sink(gr.sizeof_gr_complex, 'f_sink.out')
+        #f_sink2 = gr.file_sink(gr.sizeof_gr_complex, 'f_sink2.out')
 
-
-            #TX
-
-
-
+#TX
         freq = 915e6
         rx_gain = 20
 
         tx = usrp.sink_c(fusb_block_size = 1024, fusb_nblocks=8)
         tx.set_interp_rate(interp_rate)
+        # Manually choose transmitting subdevice
+        # instead of using usrp.pick_tx_subdevice(tx)
         tx_subdev = (0,0)
         tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
         subdev = usrp.selected_subdev(tx, tx_subdev)
+        print "Using TX board %s" % subdev.side_and_name()
+
         subdev.set_enable(True)
         subdev.set_gain(subdev.gain_range()[2])
         t = tx.tune(subdev.which(), subdev, freq)
@@ -113,17 +113,16 @@ class my_top_block(gr.top_block):
         tag_decoder.set_ctrl_out(self.reader.ctrl_q())
         agc2 = gr.agc2_ff(0.3, 1e-3, 1, 1, 100)
 
-
 #########Build Graph
         self.connect(rx, matched_filt)
         self.connect(matched_filt, command_gate)
         self.connect(command_gate, agc)
         self.connect(agc, to_mag)
         self.connect(to_mag, center, agc2, mm, tag_decoder)
-        self.connect(tag_decoder, self.reader, amp, to_complex, tx);
+        self.connect(tag_decoder, self.reader, amp, to_complex, tx)
 #################
 
-	#self.connect(rx, rx_out)
+        #self.connect(rx, rx_out)
         self.connect(matched_filt, matched_filter_out)
         self.connect(command_gate, command_gate_out)
         #self.connect(to_mag, mag_out)
@@ -131,14 +130,11 @@ class my_top_block(gr.top_block):
         self.connect(agc2, agc_out)
         self.connect(mm, mm_out)
 
-
-
 def main():
 
-
     tb = my_top_block()
-
     tb.start()
+
     while 1:
 
         c = raw_input("'Q' to quit. L to get log.\n")
@@ -149,7 +145,7 @@ def main():
             log_file.write("T,CMD,ERROR,BITS,SNR\n")
             log = tb.reader.get_log()
             print "Log has %s Entries"% (str(log.count()))
-            i = log.count();
+            i = log.count()
 
 
             for k in range(0, i):
@@ -170,27 +166,27 @@ def print_log_msg(msg, log_file):
     if msg.type() == LOG_START_CYCLE:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t Started Cycle" %(fields[-1])
-        log_file.write(fields[-1] + ",START_CYCLE,0,0,0\n");
+        log_file.write(fields[-1] + ",START_CYCLE,0,0,0\n")
 
     if msg.type() == LOG_QUERY:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t Query" %(fields[-1])
-        log_file.write(fields[-1] + ",QUERY,0,0,0\n");
+        log_file.write(fields[-1] + ",QUERY,0,0,0\n")
 
     if msg.type() == LOG_QREP:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t QRep" %(fields[-1])
-        log_file.write(fields[-1] + ",QREP,0,0,0\n");
+        log_file.write(fields[-1] + ",QREP,0,0,0\n")
 
     if msg.type() == LOG_ACK:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t ACK" %(fields[-1])
-        log_file.write(fields[-1] + ",ACK,0,0,0\n");
+        log_file.write(fields[-1] + ",ACK,0,0,0\n")
 
     if msg.type() == LOG_NAK:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t NAK" %(fields[-1])
-        log_file.write(fields[-1] + ",NAK,0,0,0\n");
+        log_file.write(fields[-1] + ",NAK,0,0,0\n")
 
 
     if msg.type() == LOG_RN16:
@@ -200,12 +196,11 @@ def print_log_msg(msg, log_file):
         tmp = int(rn16,2)
 
         if msg.arg2() == LOG_ERROR:
-
             print "%s\t    %s RN16 w/ Error: %04X%s" %(fields[-1],fRed, tmp, fReset)
-            log_file.write(fields[-1] + ",RN16,1," +"%04X" % tmp  + ","+snr + "\n");
+            log_file.write(fields[-1] + ",RN16,1," +"%04X" % tmp  + ","+snr + "\n")
         else:
             print "%s\t    %s RN16: %04X%s" %(fields[-1],fBlue, tmp, fReset)
-            log_file.write(fields[-1] +",RN16,0," + "%04X" % tmp + "," +snr + "\n");
+            log_file.write(fields[-1] +",RN16,0," + "%04X" % tmp + "," +snr + "\n")
 
 
     if msg.type() == LOG_EPC:
@@ -217,21 +212,21 @@ def print_log_msg(msg, log_file):
         tmp = int(epc,2)
         if msg.arg2() == LOG_ERROR:
             print "%s\t    %s EPC w/ Error: %024X%s" %(fields[-1],fRed, tmp, fReset)
-            log_file.write(fields[-1] + ",EPC,1," + "%024X" % tmp + ","+snr + "\n");
+            log_file.write(fields[-1] + ",EPC,1," + "%024X" % tmp + ","+snr + "\n")
         else:
             print "%s\t    %s EPC: %024X%s" %(fields[-1],fBlue, tmp, fReset)
-            log_file.write(fields[-1] +",EPC,0," + "%024X" % tmp + "," +snr + "\n");
+            log_file.write(fields[-1] +",EPC,0," + "%024X" % tmp + "," +snr + "\n")
 
     if msg.type() == LOG_EMPTY:
         fields = split(strip(msg.to_string()), " ")
         snr = strip(fields[0])
         print "%s\t    - Empty Slot - " %(fields[-1])
-        log_file.write(fields[-1] + ",EMPTY,0,0,"+snr+"\n");
+        log_file.write(fields[-1] + ",EMPTY,0,0,"+snr+"\n")
 
     if msg.type() == LOG_COLLISION:
         fields = split(strip(msg.to_string()), " ")
         print "%s\t    - Collision - " %(fields[-1])
-        log_file.write(fields[-1] + ",COLLISION,0,0,0\n");
+        log_file.write(fields[-1] + ",COLLISION,0,0,0\n")
 
 
 if __name__ == '__main__':
