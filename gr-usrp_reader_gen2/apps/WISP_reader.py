@@ -110,12 +110,6 @@ class my_top_block(gr.top_block):
 
         print 'Detected USRP1 device with serial ' + serial
 
-        print 'antennas = ' + str(tx.get_antennas())
-        print 'subdev_spec = ' + tx.get_subdev_spec()
-        print 'sample rate = %f ' % tx.get_samp_rate()
-        print 'gain = %f ' % tx.get_gain()
-        print 'bandwidth = %f' % tx.get_bandwidth()
-
         # tx.set_interp_rate(interp_rate)
         # tx_subdev = (0,0)
         # tx.set_mux(usrp.determine_tx_mux_value(tx, tx_subdev))
@@ -124,8 +118,13 @@ class my_top_block(gr.top_block):
         # subdev.set_gain(subdev.gain_range()[2])
         # t = tx.tune(subdev.which(), subdev, freq)
         tx_center_freq = uhd.tune_request(freq)
-
         print 'TX target freq = %f' % tx_center_freq.target_freq
+
+        print 'TX antennas = ' + str(tx.get_antennas())
+        print 'TX subdev_spec = ' + tx.get_subdev_spec()
+        print 'TX sample rate = %f ' % tx.get_samp_rate()
+        print 'TX gain = %f ' % tx.get_gain()
+        print 'TX bandwidth = %f' % tx.get_bandwidth()
 
         tx.set_center_freq(tx_center_freq)
 
@@ -150,13 +149,16 @@ class my_top_block(gr.top_block):
         #
         # r = usrp.tune(rx, 0, rx_subdev, freq)
         rx_center_freq = uhd.tune_request(freq)
-
         print 'RX target freq = %f' % rx_center_freq.target_freq
 
         rx.set_center_freq(rx_center_freq)
         rx.set_gain(rx_gain)
 
-
+        print 'RX antennas = ' + str(rx.get_antennas())
+        print 'RX subdev_spec = ' + rx.get_subdev_spec()
+        print 'RX sample rate = %f ' % rx.get_samp_rate()
+        print 'RX gain = %f ' % rx.get_gain()
+        print 'RX bandwidth = %f' % rx.get_bandwidth()
 
 #End RX
 
