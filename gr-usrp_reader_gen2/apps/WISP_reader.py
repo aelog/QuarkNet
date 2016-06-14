@@ -67,22 +67,17 @@ class my_top_block(gr.top_block):
 
         mm = digital.clock_recovery_mm_ff(omega, gain_omega, mu, gain_mu, omega_relative_limit)
 
-
         self.reader = usrp.rfid_reader_f(int(128e6/interp_rate))
 
         tag_decoder =usrp.rfid_tag_decoder_f()
 
         command_gate = usrp.rfid_command_gate_cc(12, 60, 64000000 / dec_rate / sw_dec)
 
-
-
-
         to_complex = blocks.float_to_complex()
         amp = blocks.multiply_const_ff(amplitude)
 
         #f_sink = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink.out')
         #f_sink2 = blocks.file_sink(gr.sizeof_gr_complex, 'f_sink2.out')
-
 
 #TX
 
@@ -120,7 +115,6 @@ class my_top_block(gr.top_block):
         print 'sample rate = %f ' % tx.get_samp_rate()
         print 'gain = %f ' % tx.get_gain()
         print 'bandwidth = %f' % tx.get_bandwidth()
-
 
         # tx.set_interp_rate(interp_rate)
         # tx_subdev = (0,0)
