@@ -230,6 +230,10 @@ def print_log_msg(msg, log_file):
 
 
 if __name__ == '__main__':
-    main()
+    try:
+        main()
+    except RuntimeError as error:
+        print error
+        print 'Make sure the USRP is powered and connected to the USB port!'
 
 
