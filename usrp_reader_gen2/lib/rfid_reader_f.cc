@@ -751,6 +751,7 @@ rfid_reader_f::gen_query_cmd()
   }
 
   global_reader_state->num_slots = (int)pow(2, q);
+  printf("Q = %s, q = %d, number of slots (2^q) = %d\n", d_Q, q, global_reader_state->num_slots);
 
   if (d_tr_ext[0] == '0') {
     global_reader_state->num_bits_in_preamble = 10; // 4 LF + 6
