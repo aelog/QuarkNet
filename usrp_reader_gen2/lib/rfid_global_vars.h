@@ -28,7 +28,7 @@ const bool LOGGING = true;  //Generally, you want to log things.
 const bool READ_DATA = false; //READ data after singulation. Currently, not fully implemented.
 
 const float COLLISION_THRESHOLD = 2;   //SNR to detect collisions, NOT in dB
-const float INIT_QFP = 0;              //Initial Q value
+const float INIT_QFP = 1;              //Initial Q value
 
 //USRP1 automatically sends the CW, at least with the current GNURadio.
 // USRP2, or if GNUradio changes, this will send out the CW manually.
